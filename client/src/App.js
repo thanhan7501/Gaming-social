@@ -7,7 +7,7 @@ import Home from "./pages/user/home/Home";
 import Profile from "./pages/user/profile/Profile";
 import AutoLoginUser from "./auth/AutoLoginUser"
 
-import './App.css';
+import './App.scss';
 
 function App() {
   function ScrollToTop() {

@@ -1,14 +1,14 @@
 import axiosClient from "./axiosClient";
 
 class AuthApi {
-  login = (formData) => {
+  login = (values) => {
     const url = "/auth/login";
-    return axiosClient.post(url, formData);
+    return axiosClient.post(url, values);
   };
 
-  register = (formData) => {
-    const url = "/register";
-    return axiosClient.post(url, formData);
+  register = (values) => {
+    const url = "/user/register";
+    return axiosClient.post(url, values);
   };
 
   getNewToken = (refreshToken) => {
