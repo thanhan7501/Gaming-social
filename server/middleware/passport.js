@@ -37,7 +37,6 @@ passport.use(
       return done(null, user);
     } catch (err) {
       console.log(err);
-      console.log(err.response);
       return done(err);
     }
   })
@@ -50,7 +49,7 @@ passport.use(
   "jwt-access",
   new JwtStrategy(accessOptions, function (jwt_payload, done) {
     User.findOne({
-      _id: jwt_payload.payload.user
+      _id: jwt_payload.payload
     }, function (err, user) {
       if (err) {
         return done(err, false);
@@ -66,13 +65,12 @@ passport.use(
 
 let refreshOptions = {};
 refreshOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
-refreshOptions.secretOrKey =
-  process.env.REFRESH_TOKEN_SECRET || "gaming_social";
+refreshOptions.secretOrKey = process.env.REFRESH_TOKEN_SECRET || "gaming_social";
 passport.use(
   "jwt-refresh",
   new JwtStrategy(refreshOptions, function (jwt_payload, done) {
     User.findOne({
-      _id: jwt_payload.payload.user
+      _id: jwt_payload.payload
     }, function (err, user) {
       if (err) {
         return done(err, false);

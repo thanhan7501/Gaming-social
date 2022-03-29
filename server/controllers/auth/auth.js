@@ -18,7 +18,7 @@ module.exports = {
     const token = await generateDataToken(user._id);
 
     await saveToken(token.accessToken, token.refreshToken, user._id);
-    await ctx.login(user);
+    ctx.login(user);
     return (ctx.body = {
       status: true,
       message: "Login success",

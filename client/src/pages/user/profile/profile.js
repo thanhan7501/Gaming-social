@@ -1,9 +1,17 @@
-import React from 'react'
+import React from 'react';
+import { Layout } from 'antd';
+const { Header, Footer, Sider, Content } = Layout;
 
-const profile = () => {
+const Profile = () => {
   return (
-    <div>profile</div>
+    <>
+      <Layout>
+        <Header>Header</Header>
+        <Content>Content</Content>
+        <Footer>Footer</Footer>
+      </Layout>
+    </>
   )
 }
 
-export default profile
+export default Profile

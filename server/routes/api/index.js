@@ -3,7 +3,8 @@ const router = new Router();
 const admin = require("./admin");
 const user = require("./user");
 const auth = require("./auth/auth");
-require("../../middleware/passport")
+const passport = require("koa-passport");
+require("../../middleware/passport");
 
 //Admin api
 router.use("/admin", passport.authenticate("jwt-access", { failWithError: true }), admin);

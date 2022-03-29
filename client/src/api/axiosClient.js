@@ -1,4 +1,3 @@
-// api/axiosClient.js
 import axios from "axios";
 import queryString from "query-string";
 const getToken = () => {
@@ -22,6 +21,7 @@ axiosClient.interceptors.request.use(
     if (accessToken) {
       config.headers['Authorization'] = `Bearer ${accessToken}`;
     }
+    console.log(config)
     return config;
   },
   (error) => {

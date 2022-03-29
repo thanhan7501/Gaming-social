@@ -1,9 +1,17 @@
-import React from 'react'
+import React from 'react';
+import { Layout } from 'antd';
+const { Header, Footer, Content } = Layout;
 
-const home = () => {
+const Home = () => {
   return (
-    <div>home</div>
+    <>
+      <Layout>
+        <Header>Header</Header>
+        <Content>Content</Content>
+        <Footer>Footer</Footer>
+      </Layout>
+    </>
   )
 }
 
-export default home
+export default Home

@@ -6,7 +6,6 @@ const getPath = (path) => {
 
 module.exports = {
     createPost: async (ctx) => {
-        const
         const post = new Post(ctx.request.body)
         const user = ctx.state.user;
         post.user = user.user._id

@@ -92,36 +92,44 @@ app.use(async (ctx, next) => {
 
 app.use(router);
 
-const { verifyToken } = require("./config/jwt")
+const { verifyToken } = require('./config/jwt');
 
 const httpServer = createServer(app.callback());
 const io = new Server(httpServer, {
     cors: {
-        origin: ["http://localhost:8080", "http://localhost:3000"],
-        allowedHeaders: ["my-custom-header"],
-        credentials: true
-    }
+        origin: '*',
+        allowedHeaders: ['Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Authorization, Access-Control-Request-Method, Access-Control-Request-Headers'],
+        credentials: true,
+    },
 });
+
+const registerCommentHandlers = require('./controllers/user/comment');
+const registeLikeHandlers = require('./controllers/user/like')
+
+const onConnection = (socket) => {
+    console.log(socket.id);
+    registerCommentHandlers(io, socket);
+    registeLikeHandlers(io, socket);
+};
+
+io.sockets.setMaxListeners(0);
 
 io.use(async function (socket, next) {
-    if (socket.handshake.query && socket.handshake.query.token) {
+    if (socket.handshake.auth && socket.handshake.auth.token) {
+        const accessToken = socket.handshake.auth.token;
         try {
-            const decoded = await verifyToken(socket.handshake.query.token, "access")
+            const decoded = await verifyToken(accessToken, 'access');
             socket.decoded = decoded;
             next();
-        }
-        catch (err) {
+        } catch (err) {
             return next(new Error('Authentication error'));
         }
-    }
-    else {
+    } else {
         next(new Error('Authentication error'));
     }
-}).on('connection', (socket) => {
-    console.log(socket.id);
-});
+}).on('connection', onConnection);
 
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 7000;
 httpServer.listen(PORT, () => {
     console.log('Server is running on port: ' + PORT);
 });
