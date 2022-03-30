@@ -5,10 +5,6 @@ const {
   generateToken,
   configJWT,
 } = require("../../config/jwt");
-const {
-  saveToken,
-  getToken
-} = require("../../config/redis");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
@@ -17,7 +13,6 @@ module.exports = {
     const user = ctx.state.user;
     const token = await generateDataToken(user._id);
 
-    await saveToken(token.accessToken, token.refreshToken, user._id);
     ctx.login(user);
     return (ctx.body = {
       status: true,
