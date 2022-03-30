@@ -26,7 +26,6 @@ function App() {
         <Routes>
           {/* User routing */}
           <Route exact path="/login" name="login" element={<Login />} />
-          <Route exact path="/register" name="login" element={<Register />} />
           <Route element={<AutoLoginUser />}>
             <Route exact path="/" name="home" element={<Home />} />
             <Route exact path="/:user" name="profile" element={<Profile />} />

@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button, Checkbox, Modal } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
 import authApi from "../../api/authApi";
+import Register from "../user/register/Register";
 
 import "./Login.scss"
 
@@ -24,8 +25,23 @@ const Login = () => {
             }
         } catch (error) {
             console.log(error.response);
+            setErr(true)
         }
     }
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [err, setErr] = useState(false);
+
+    const showModal = () => {
+        setIsModalVisible(true);
+    };
+
+    const handleOk = () => {
+        setIsModalVisible(false);
+    };
+
+    const handleCancel = () => {
+        setIsModalVisible(false);
+    };
     return (
         <>
             <div className="container">
@@ -78,16 +94,24 @@ const Login = () => {
                                 Forgot password
                             </a>
                         </Form.Item>
-
+                        {err === true &&
+                            (<>
+                                <div class="ant-form-item-explain-error">*Email or password is not correct</div>
+                            </>)}
                         <Form.Item>
                             <Button type="primary" htmlType="submit" className="login-form-button">
                                 Log in
                             </Button>
-                            Or <Link to="/register">register now!</Link>
+                            Or <a onClick={showModal}>register now!</a>
                         </Form.Item>
                     </Form>
                 </div>
             </div>
+            <Modal title="Register your account" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}
+                footer={[]} >
+                <Register />
+            </Modal>
+
         </>
     )
 }

@@ -20,7 +20,7 @@ module.exports = {
       let user = new User({
         email: email,
         password: hash,
-        name: name,
+        fullName: name,
       });
       await user.save();
       return (ctx.body = {
