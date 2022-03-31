@@ -1,11 +1,21 @@
-import React, { useState } from 'react'
-import { Input, Form, Button, Upload } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
+import React, { useState, useEffect } from 'react'
+import { Input, Form, Button, Upload, Select, Avatar, Card } from 'antd';
+import { UploadOutlined, UserOutlined } from '@ant-design/icons';
+import HeaderComponent from '../header/Header';
+import postApi from './../../api/post';
 
 const { TextArea } = Input;
+const { Option } = Select;
 
-const Post = () => {
+const Post = (props) => {
+    const urlUploadFile = `${process.env.REACT_APP_API_URL}/user/post/file`;
+    const [gameList, setGameList] = useState([]);
     const [form] = Form.useForm();
+    const getAllGames = async () => {
+        const allGames = await postApi.getAllGames();
+        setGameList(allGames.games)
+        console.log(allGames)
+    }
     const formItemLayout = {
         labelCol: {
             xs: {
@@ -24,11 +34,45 @@ const Post = () => {
             },
         },
     };
-    const onFinish = (values) => {
+    const getToken = () => {
+        const accessToken = localStorage.getItem("access_token");
+        return accessToken;
+    }
+    const onFinish = async (values) => {
+        const filePath = [];
+        for (let i = 0; i < values.postFile.fileList.length; i++) {
+            filePath.push(values.postFile.fileList[i].response.filePath)
+        }
+        const value = {
+            content: values.content,
+            postFile: filePath,
+            game: values.game,
+        }
+        console.log(value)
+        try {
+            const response = await postApi.createPost(value);
+            console.log(response);
+        } catch (error) {
+            console.log(error.response);
+        }
         console.log('Received values of form: ', values);
+        props.Cancel();
+        props.onSubmit();
     };
-    const fileList = [];
+    const uploadFile = async (info) => {
+        console.log("uploadFile", info);
+    }
+    const beforeUpload = () => {
 
+    }
+    const accessToken = getToken();
+    const authorization = {
+        Authorization: `Bearer ${accessToken}`,
+    }
+    const fileList = [];
+    useEffect(() => {
+        getAllGames();
+    }, [])
     return (
         <>
             <Form
@@ -50,21 +94,37 @@ const Post = () => {
                     ]}
                 >
                     <TextArea
-                        placeholder="Controlled autosize"
+                        placeholder="Write something here"
                         autoSize={{ minRows: 3, maxRows: 5 }}
                     />
                 </Form.Item>
-
-                <Form.Item>
+                <Form.Item name="game">
+                    <Select defaultValue="Playing...">
+                        {gameList &&
+                            gameList.map((game, index) => (
+                                <Option key={index} value={game._id}>
+                                    <Avatar size="small" shape="square" src={game.gameAvatar} /> {game.gameName}
+                                </Option>
+                            ))}
+                    </Select>
+                </Form.Item>
+                <Form.Item
+                    name="postFile">
                     <Upload
-                        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                        action={urlUploadFile}
                         listType="picture"
-                        // className="upload-list-inline"
+                        className="upload-list-inline"
                         defaultFileList={[...fileList]}
+                        onChange={uploadFile}
+                        // beforeUpload={beforeUpload}
+                        headers={authorization}
+                        name="postFile"
                     >
                         <Button icon={<UploadOutlined />}>Upload</Button>
                     </Upload>
                 </Form.Item>
+
+
 
                 <Form.Item>
                     <Button type="primary" htmlType="submit" className="login-form-button">

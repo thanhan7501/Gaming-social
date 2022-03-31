@@ -6,8 +6,8 @@ class PostApi {
     return axiosClient.post(url, values);
   };
 
-  updatePost = (values) => {
-    const url = "/user/post/:id";
+  updatePost = (id, values) => {
+    const url = `/user/post/${id}`;
     return axiosClient.put(url, values);
   };
 
@@ -20,6 +20,16 @@ class PostApi {
     const url = "/user/post";
     return axiosClient.get(url);
   };
+
+  getAllGames = () => {
+    const url = "/user/post/game";
+    return axiosClient.get(url);
+  };
+
+  getPostDetail = (id) => {
+    const url = `/user/post/${id}`
+    return axiosClient.get(url);
+  }
 }
 
 const postApi = new PostApi();

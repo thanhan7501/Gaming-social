@@ -4,7 +4,6 @@ import { PageHeader } from 'antd';
 import { Menu, Button } from 'antd';
 import { HomeOutlined, WechatOutlined, UserOutlined } from '@ant-design/icons';
 import { useSelector } from "react-redux";
-import logo from "../../assets/logo.jpg"
 
 
 const HeaderComponent = () => {
@@ -35,7 +34,7 @@ const HeaderComponent = () => {
                     const key = index + 1;
                     return (<Menu.Item key={key}>
                         <Link to={`${route.path}`} >
-                            <Button type="link" ghost icon={route.icon}>{`${route.breadcrumbName}`}</Button>
+                            <Button type="link" icon={route.icon}>{`${route.breadcrumbName}`}</Button>
                         </Link>
                     </Menu.Item>);
                 })}

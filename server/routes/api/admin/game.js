@@ -1,13 +1,13 @@
 const Router = require("@koa/router");
 const router = new Router();
-const admin = require("../../../controllers/admin/game");
+const controller = require("../../../controllers/admin/game");
 const multer = require("../../../middleware/multer");
 
 router.post("/create-game", multer.fields([{
-    name: "avatarGame",
+    name: "gameAvatar",
     maxCount: 1
-}, ]), admin.createGame);
-router.get("/games", admin.getAllGames)
-router.delete("/delete-game/:id", admin.deleteGame)
+}, ]), controller.createGame);
+router.get("/games", controller.getAllGames)
+router.delete("/delete-game/:id", controller.deleteGame)
 
 module.exports = router.routes();

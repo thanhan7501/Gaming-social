@@ -14,8 +14,7 @@ const limits = {
     fileSize: 5000000, //File Size Unit
 }
 const fileFilter = (ctx, file, cb) => {
-    console.log(file)
-    if (!file.mimetype.startsWith('image/') || !file.mimetype.startsWith('video/')) {
+    if (!file.mimetype.startsWith('image/')) {
         return cb(new Error('file upload error'))
     }
     // Only allow images pass

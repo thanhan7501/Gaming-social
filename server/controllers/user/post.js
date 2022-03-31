@@ -1,4 +1,5 @@
 const Post = require("../../models/post");
+const Comment = require("../../models/comment")
 
 const getPath = (path) => {
     return process.env.BASE_URL + "/" + path[path.length - 2] + "/" + path[path.length - 1];
@@ -6,9 +7,14 @@ const getPath = (path) => {
 
 module.exports = {
     createPost: async (ctx) => {
-        const post = new Post(ctx.request.body)
+        const { content, postFile, game } = ctx.request.body;
+        const post = new Post({
+            content: content,
+            postFile: postFile,
+            game: game,
+        })
         const user = ctx.state.user;
-        post.user = user.user._id
+        post.user = user._id
 
         await post.save();
 
@@ -78,5 +84,26 @@ module.exports = {
             status: false,
             message: "no file path"
         })
-    }
+    },
+
+    getAllPost: async (ctx) => {
+        const allPost = await Post.find({}).populate("user", "-password -createdAt -updatedAt -__v").populate("game", "-createdAt -updatedAt -__v").sort({ createdAt: "DESC" }).lean();
+        return (ctx.body = {
+            status: true,
+            message: "get all posts success",
+            allPost
+        })
+    },
+
+    getPostDetail: async (ctx) => {
+        const id = ctx.params.id;
+        const post = await Post.findById(id).populate("user", "-password -createdAt -updatedAt -__v").populate("game", "-createdAt -updatedAt -__v").lean()
+        const comment = await Comment.find({ post: post._id }).populate("user", "-password -createdAt -updatedAt -__v").lean();
+        return (ctx.body = {
+            status: true,
+            message: "get post success",
+            post,
+            comment
+        })
+    },
 }

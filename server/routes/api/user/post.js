@@ -1,6 +1,7 @@
 const Router = require("@koa/router");
 const router = new Router();
 const controller = require("../../../controllers/user/post");
+const controllerGame = require("../../../controllers/admin/game")
 const multer = require("../../../middleware/multer");
 
 require("dotenv").config();
@@ -28,5 +29,11 @@ router.post(
     ]),
     controller.uploadFile
 )
+
+router.get("/post", controller.getAllPost)
+
+router.get("/post/:id", controller.getPostDetail)
+
+router.get("/post/game", controllerGame.getAllGames)
 
 module.exports = router.routes();
