@@ -69,7 +69,7 @@ module.exports = {
             }
             return (ctx.body = {
                 status: true,
-                message: "delete post success",
+                message: "file path",
                 filePath,
             })
         }

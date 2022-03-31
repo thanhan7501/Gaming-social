@@ -1,0 +1,26 @@
+import axiosClient from "./axiosClient";
+
+class PostApi {
+  createPost = (values) => {
+    const url = "/user/post";
+    return axiosClient.post(url, values);
+  };
+
+  updatePost = (values) => {
+    const url = "/user/post/:id";
+    return axiosClient.put(url, values);
+  };
+
+  deletePost = () => {
+    const url = "/user/post/:id";
+    return axiosClient.delete(url);
+  };
+
+  getAllPost = () => {
+    const url = "/user/post";
+    return axiosClient.get(url);
+  };
+}
+
+const postApi = new PostApi();
+export default postApi;

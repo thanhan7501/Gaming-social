@@ -101,13 +101,7 @@ const Register = () => {
                         },
                         {
                             validator(_, value) {
-                                return err === true ? Promise.reject(new Error(errMessage)) : Promise.resolve()
-                                //     if (err === true) {
-                                //         return Promise.reject(new Error(errMessage));
-                                //     }
-                                //     else if (err === false) {
-                                //         return Promise.resolve();
-                                //     }
+                                return err === true ? Promise.reject(new Error(errMessage)) : Promise.resolve();
                             },
                         }
                     ]}
