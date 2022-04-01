@@ -32,8 +32,8 @@ router.post(
 
 router.get("/post", controller.getAllPost)
 
-router.get("/post/:id", controller.getPostDetail)
-
 router.get("/post/game", controllerGame.getAllGames)
+
+router.get("/post/:id", controller.getPostDetail)
 
 module.exports = router.routes();

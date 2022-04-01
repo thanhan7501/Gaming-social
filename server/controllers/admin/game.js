@@ -16,7 +16,7 @@ module.exports = {
         });
     },
     getAllGames: async (ctx) => {
-        const games = await Game.find({}).lean();
+        const games = await Game.find().lean();
         return (ctx.body = {
             status: true,
             games

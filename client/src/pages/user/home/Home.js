@@ -93,8 +93,8 @@ const Home = () => {
                       ]}
                     >
                       <Meta
-                        avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-                        title={post.user.fullName}
+                        avatar={<Link to={`/user/${post.user._id}`} ><Avatar src="https://joeschmoe.io/api/v1/random" /></Link>}
+                        title={<Link to={`/user/${post.user._id}`} >{post.user.fullName}</Link>}
                         description={post.content}
                       />
                     </Card>

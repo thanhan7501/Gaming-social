@@ -85,32 +85,33 @@ const PostDetail = () => {
                                         >
                                             <Meta
                                                 avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-                                                title={post.user.fullName}
+                                                // title={post.user}
                                                 description={post.content}
                                             />
+                                            {JSON.stringify(post.user)}
                                         </Card>
                                     </>
                                 )}
-                                {/* <Form.Item>
-                <TextArea placeholder="Write something here"
-                    autoSize={{ minRows: 1, maxRows: 3 }} />
-                <List
-                    className="comment-list"
-                    itemLayout="horizontal"
-                    dataSource={data}
-                    renderItem={item => (
-                        <li>
-                            <Card>
-                                <Comment
-                                    author={item.author}
-                                    avatar={item.avatar}
-                                    content={item.content}
-                                />
-                            </Card>
-                        </li>
-                    )}
-                />
-            </Form.Item> */}
+                                <Form.Item>
+                                    <TextArea placeholder="Write something here"
+                                        autoSize={{ minRows: 1, maxRows: 3 }} />
+                                    <List
+                                        className="comment-list"
+                                        itemLayout="horizontal"
+                                        dataSource={data}
+                                        renderItem={item => (
+                                            <li>
+                                                <Card>
+                                                    <Comment
+                                                        author={item.author}
+                                                        avatar={item.avatar}
+                                                        content={item.content}
+                                                    />
+                                                </Card>
+                                            </li>
+                                        )}
+                                    />
+                                </Form.Item>
                             </Col>
                             <Col xs={0} sm={1} md={2} lg={4} xl={6}>
                             </Col>
