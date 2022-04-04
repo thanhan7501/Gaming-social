@@ -1,10 +1,10 @@
 const Like = require("../../models/like");
 const Post = require("../../models/post");
 
-module.exports = (io, socket) => {
-    like = async (payload) => {
-        const { postId } = payload;
-        const userId = socket.decoded.payload;
+module.exports = {
+    like: async (ctx) => {
+        const { postId } = ctx.request.body;
+        const userId = ctx.state.user._id;
         const like = new Like({
             user: userId,
             post: postId
@@ -16,21 +16,27 @@ module.exports = (io, socket) => {
             ...likes,
             postId
         }
-        socket.emit("like", likes)
-    }
+        return (ctx.body = {
+            status: true,
+            like: likes,
+            message: "like success"
+        })
+    },
 
-    unlike = async (payload) => {
-        const { postId } = payload;
-        const userId = socket.decoded.payload;
+    unlike: async (ctx) => {
+        const postId = ctx.params.id;
+        const userId = ctx.state.user._id;
         await Like.deleteOne({ post: postId, user: userId });
+
         let likes = await Like.find({ post: postId }).count();
         likes = {
             ...likes,
             postId
         }
-        socket.emit("like", likes)
+        return (ctx.body = {
+            status: true,
+            like: likes,
+            message: "unlike success"
+        })
     }
-
-    socket.on("like:create", like);
-    socket.on("like:delete", unlike);
 }

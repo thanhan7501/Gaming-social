@@ -22,7 +22,7 @@ module.exports = (io, socket) => {
 
             await comment.save()
 
-            socket.to(postId).emit("comment:create", payload)
+            socket.broadcast.emit("comment:create", payload)
         }
 
         else {
@@ -37,20 +37,18 @@ module.exports = (io, socket) => {
         }
 
         await Comment.deleteOne({ _id: commentId })
-
-        socket.broadcast.to(postId).emit("comment:delete", commentId)
     }
 
-    updateComment = async (ctx) => {
+    updateComment = async (payload) => {
         const { commentContent, commentId, postId } = payload;
 
         if (!commentId || commentContent) {
             throw new Error('comment not found');
         }
 
-        const comment = await Comment.findByIdAndUpdate({ _id: commentId }, { commentContent: commentContent });
+        const comment = await Comment.findOneAndUpdate({ _id: commentId }, { commentContent: commentContent });
 
-        socket.broadcast.to(postId).emit("comment:update", comment)
+        socket.broadcast.emit("comment:update", comment)
     }
 
 

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Input, Form, Button, Upload, Select, Avatar, Card } from 'antd';
 import { UploadOutlined, UserOutlined } from '@ant-design/icons';
-import HeaderComponent from '../header/Header';
 import postApi from './../../api/post';
 
 const { TextArea } = Input;

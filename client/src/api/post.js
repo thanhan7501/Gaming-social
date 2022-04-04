@@ -11,8 +11,8 @@ class PostApi {
     return axiosClient.put(url, values);
   };
 
-  deletePost = () => {
-    const url = "/user/post/:id";
+  deletePost = (id) => {
+    const url = `/user/post/${id}`;
     return axiosClient.delete(url);
   };
 

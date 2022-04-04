@@ -98,7 +98,6 @@ const Home = () => {
                         description={post.content}
                       />
                     </Card>
-
                   </>
                 ))}
               </Col>

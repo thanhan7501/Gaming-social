@@ -6,29 +6,13 @@ const multer = require("../../../middleware/multer");
 
 require("dotenv").config();
 
-router.post(
-    "/post",
-    controller.createPost
-);
+router.post("/post", controller.createPost);
 
-router.put(
-    "/post/:id",
-    controller.updatePost
-);
+router.put("/post/:id", controller.updatePost);
 
-router.delete(
-    "/post/:id",
-    controller.deletePost
-);
+router.delete("/post/:id", controller.deletePost);
 
-router.post(
-    "/post/file",
-    multer.fields([{
-        name: "postFile",
-    },
-    ]),
-    controller.uploadFile
-)
+router.post("/post/file", multer.fields([{ name: "postFile", }]), controller.uploadFile)
 
 router.get("/post", controller.getAllPost)
 

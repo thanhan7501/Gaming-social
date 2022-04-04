@@ -1,5 +1,6 @@
 const Post = require("../../models/post");
-const Comment = require("../../models/comment")
+const Comment = require("../../models/comment");
+const Like = require("../../models/like");
 
 const getPath = (path) => {
     return process.env.BASE_URL + "/" + path[path.length - 2] + "/" + path[path.length - 1];
@@ -87,7 +88,10 @@ module.exports = {
     },
 
     getAllPost: async (ctx) => {
-        const allPost = await Post.find({}).populate("user", "-password -createdAt -updatedAt -__v").populate("game", "-createdAt -updatedAt -__v").sort({ createdAt: "DESC" }).lean();
+        const allPost = await Post.find({})
+            .populate("user", "-password -createdAt -updatedAt -__v")
+            .populate("game", "-createdAt -updatedAt -__v")
+            .sort({ createdAt: "DESC" }).lean();
         return (ctx.body = {
             status: true,
             message: "get all posts success",
@@ -97,13 +101,28 @@ module.exports = {
 
     getPostDetail: async (ctx) => {
         const id = ctx.params.id;
-        const post = await Post.findById(id).populate("user", "-password -createdAt -updatedAt -__v").populate("game", "-createdAt -updatedAt -__v").lean()
-        const comment = await Comment.find({ post: post._id }).populate("user", "-password -createdAt -updatedAt -__v").lean();
+        const userId = ctx.state.user._id;
+        if (!id) {
+            return (ctx.body = {
+                status: false,
+                message: "post not found",
+            })
+        }
+        const post = await Post.findById(id)
+            .populate("user", "-password -createdAt -updatedAt -__v")
+            .populate("game", "-createdAt -updatedAt -__v")
+            .lean()
+        const comment = await Comment.find({ post: id }).populate("user", "-password -createdAt -updatedAt -__v").lean();
+        const likes = await Like.find({ post: id }).count();
+        const userLike = await Like.findOne({ user: userId, idea: ideaId }).count();
+        const liked = userLike === 1 ? true : false;
         return (ctx.body = {
             status: true,
             message: "get post success",
             post,
-            comment
+            comment,
+            likes,
+            liked
         })
     },
 }

@@ -5,6 +5,16 @@ class GameApi {
     const url = "/admin/games";
     return axiosClient.get(url);
   };
+
+  createGame = (values) => {
+    const url = "/admin/create-game";
+    return axiosClient.get(url, values);
+  };
+
+  deleteGame = (id) => {
+    const url = `/admin/delete-game/${id}`;
+    return axiosClient.delete(url);
+  };
 }
 
 const gameApi = new GameApi();

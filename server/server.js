@@ -104,12 +104,10 @@ const io = new Server(httpServer, {
 });
 
 const registerCommentHandlers = require('./controllers/user/comment');
-const registeLikeHandlers = require('./controllers/user/like')
 
 const onConnection = (socket) => {
     console.log(socket.id);
     registerCommentHandlers(io, socket);
-    registeLikeHandlers(io, socket);
 };
 
 io.sockets.setMaxListeners(0);

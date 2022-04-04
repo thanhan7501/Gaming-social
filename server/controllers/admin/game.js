@@ -1,7 +1,7 @@
 const Game = require("../../models/game");
 
 const getPath = (path) => {
-    return "/" + path[path.length - 2] + "/" + path[path.length - 1];
+    return process.env.BASE_URL + "/" + path[path.length - 2] + "/" + path[path.length - 1];
 };
 
 module.exports = {

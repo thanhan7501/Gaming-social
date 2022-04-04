@@ -1,13 +1,16 @@
 import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 
-import Login from "./pages/login/Login"
-import PostDetail from "./pages/user/postDetail/PostDetail"
+import Login from "./pages/login/Login";
+import PostDetail from "./pages/user/postDetail/PostDetail";
 import Home from "./pages/user/home/Home";
 import Profile from "./pages/user/profile/Profile";
-import AutoLoginUser from "./auth/AutoLoginUser"
 
-import 'antd/dist/antd.css'
+import Game from "./pages/admin/game/Game";
+
+import AutoLoginUser from "./auth/AutoLoginUser";
+
+import 'antd/dist/antd.css';
 import 'swiper/css';
 import './App.scss';
 import TestUI from "./pages/user/test";
@@ -38,21 +41,8 @@ function App() {
 
           {/* Admin routing */}
           {/* <Route element={<RequireAuthAdmin />}> */}
-          {/* <Route path="/admin" name="admin page" element={<Admin />} />
-            <Route
-              path="/admin/create"
-              name="create game page"
-            element={<Create />}
-            /> */}
-
-          {/* <Route
-              path="/admin/register"
-              name="register admin page"
-            element={<Register />}
-            /> */}
-          {/* </Route>
-          
-          */}
+          {/* <Route path="/admin" name="admin page" element={<Admin />} /> */}
+          <Route path="/admin/game" name="admin page" element={<Game />} />
 
           {/* No match routing */}
           {/* <Route path="*" element={<NoMatch />} /> */}

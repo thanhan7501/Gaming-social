@@ -44,7 +44,7 @@ const Login = () => {
     };
     return (
         <>
-            <div className="container">
+            <div className="container-login">
                 <div className="top"></div>
                 <div className="bottom"></div>
                 <div className="center">
