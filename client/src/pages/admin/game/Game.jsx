@@ -11,13 +11,13 @@ const Game = () => {
 
   const columns = [
     {
-      title: 'Name',
-      dataIndex: 'name',
+      title: 'Game',
+      dataIndex: 'gameName',
       width: 150,
     },
     {
-      title: 'Age',
-      dataIndex: 'age',
+      title: 'Icon',
+      dataIndex: 'game',
       width: 150,
     },
     {
@@ -27,14 +27,7 @@ const Game = () => {
   ];
 
   const data = [];
-  for (let i = 0; i < 100; i++) {
-    data.push({
-      key: i,
-      name: `Edward King ${i}`,
-      age: 32,
-      address: `London, Park Lane no. ${i}`,
-    });
-  }
+  data.push(gameList);
 
   return (
     <Table columns={columns} dataSource={data} pagination={{ pageSize: 50 }} scroll={{ y: 240 }} />
