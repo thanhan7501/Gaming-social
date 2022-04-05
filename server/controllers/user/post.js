@@ -88,14 +88,29 @@ module.exports = {
     },
 
     getAllPost: async (ctx) => {
-        const allPost = await Post.find({})
+        const allPosts = await Post.find({})
             .populate("user", "-password -createdAt -updatedAt -__v")
             .populate("game", "-createdAt -updatedAt -__v")
             .sort({ createdAt: "DESC" }).lean();
+        const user = ctx.state.user._id;
+        const post = []
+        for (allPost of allPosts) {
+            const likes = await Like.find({ idea: allPost._id }).count();
+            const userLike = await Like.findOne({ user: user, post: allPost._id }).count();
+            const liked = userLike === 1 ? true : false;
+            allPost = {
+                ...allPost,
+                likes: likes,
+                liked: liked,
+            }
+            post.push(allPost)
+        }
+
+
         return (ctx.body = {
             status: true,
             message: "get all posts success",
-            allPost
+            post
         })
     },
 
@@ -114,7 +129,7 @@ module.exports = {
             .lean()
         const comment = await Comment.find({ post: id }).populate("user", "-password -createdAt -updatedAt -__v").lean();
         const likes = await Like.find({ post: id }).count();
-        const userLike = await Like.findOne({ user: userId, idea: ideaId }).count();
+        const userLike = await Like.findOne({ user: userId, idea: id }).count();
         const liked = userLike === 1 ? true : false;
         return (ctx.body = {
             status: true,

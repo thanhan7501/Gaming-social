@@ -47,3 +47,42 @@
 .swiper-wrapper {
   align-items: center;
 }
+
+.ant-card-actions {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: #fff;
+  border-top: 1px solid #f0f0f0;
+}
+
+.ant-card-actions::before {
+  display: table;
+  content: "";
+}
+
+.ant-card-actions::after {
+  display: table;
+  clear: both;
+  content: "";
+}
+
+.ant-card-actions > li {
+  float: left;
+  margin: 12px 0;
+  color: rgba(0, 0, 0, 0.45);
+  text-align: center;
+}
+
+.ant-card-actions > li:not(:last-child) {
+  border-right: 1px solid #f0f0f0;
+}
+
+.ant-card-actions > li > span {
+  position: relative;
+  display: block;
+  min-width: 32px;
+  font-size: 14px;
+  line-height: 1.5715;
+  cursor: pointer;
+}

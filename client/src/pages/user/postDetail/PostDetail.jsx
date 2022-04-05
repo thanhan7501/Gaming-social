@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Layout, Row, Col, Card, Button, Modal, Avatar, Form, Input, Comment, List } from 'antd';
-import { EditOutlined, EllipsisOutlined, LikeOutlined } from '@ant-design/icons';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination, Mousewheel, Keyboard } from 'swiper';
 import { useParams } from 'react-router-dom';
 import HeaderComponent from '../../../components/header/Header';
+import PostUser from '../../../components/postUser/PostUser';
 import postApi from '../../../api/post';
 
 const { TextArea } = Input;
@@ -13,7 +11,7 @@ const { Header, Content } = Layout;
 
 const PostDetail = () => {
     let { id } = useParams();
-    const [post, setPost] = useState([]);
+    const [post, setPost] = useState();
     const getPostDetail = async () => {
         try {
             const response = await postApi.getPostDetail(id);
@@ -57,39 +55,7 @@ const PostDetail = () => {
                             <Col xs={24} sm={22} md={20} lg={16} xl={12}>
                                 {post && (
                                     <>
-                                        <Card
-                                            style={{ width: '100%', marginTop: 20 }}
-                                            cover={
-                                                <Swiper
-                                                    navigation={true}
-                                                    pagination={true}
-                                                    modules={[Navigation, Pagination, Mousewheel, Keyboard]}
-                                                    className="mySwiper"
-                                                >
-                                                    {post.postFile && post.postFile.map((image, index) => (
-                                                        <SwiperSlide key={index} style={{ zIndex: 0 }}>
-                                                            <img
-                                                                className='imgContent'
-                                                                src={image}
-                                                                alt="image content"
-                                                            />
-                                                        </SwiperSlide>
-                                                    ))}
-                                                </Swiper>
-                                            }
-                                            actions={[
-                                                <LikeOutlined key="like" />,
-                                                <EditOutlined key="edit" />,
-                                                <EllipsisOutlined key="ellipsis" />,
-                                            ]}
-                                        >
-                                            <Meta
-                                                avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-                                                // title={post.user}
-                                                description={post.content}
-                                            />
-                                            {JSON.stringify(post.user)}
-                                        </Card>
+                                        <PostUser post={post} />
                                     </>
                                 )}
                                 <Form.Item>
