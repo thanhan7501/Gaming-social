@@ -1,11 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Outlet, Navigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logIn, logOut } from "../reducers/isAuthenticatedSlice";
 import { useSelector } from "react-redux";
+import { Spin } from 'antd';
 import authApi from "../api/authApi";
+import './spin.scss'
 
 const AutoLoginUser = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
   const location = useLocation();
   const { isAuthenticated } = useSelector((state) => state.isAuthenticated);
@@ -38,12 +41,11 @@ const AutoLoginUser = () => {
       if (response.info && response.status === true) {
         dispatch(logIn(response.info));
       }
-      if (response.status === false) {
-        dispatch(logOut())
-      }
+      setIsLoading(false);
     } catch (err) {
       console.log(err);
       dispatch(logOut())
+      setIsLoading(false);
     }
   };
 
@@ -51,9 +53,17 @@ const AutoLoginUser = () => {
     relogin();
   }, []);
 
-  if (isAuthenticated) return <Outlet />;
+  const checkAuthenticate = () => {
+    if (isLoading) {
+      return <div className="example"><Spin /></div>;
+    }
 
-  return <Navigate to="/login" state={{ from: location }} replace />;
+    if (isAuthenticated === true) return <Outlet />;
+
+    else return <Navigate to="/login" state={{ from: location }} replace />;
+  };
+
+  return <>{checkAuthenticate()}</>;
 };
 
 export default AutoLoginUser;

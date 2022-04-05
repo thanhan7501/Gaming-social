@@ -13,7 +13,6 @@ import AutoLoginUser from "./auth/AutoLoginUser";
 import 'antd/dist/antd.css';
 import 'swiper/css';
 import './App.scss';
-import TestUI from "./pages/user/test";
 
 function App() {
   function ScrollToTop() {
@@ -37,7 +36,6 @@ function App() {
             <Route exact path="/post/:id" name="home" element={<PostDetail />} />
             <Route exact path="/user/:user" name="profile" element={<Profile />} />
           </Route>
-          <Route exact path="/test" element={<TestUI/>} />
 
           {/* Admin routing */}
           {/* <Route element={<RequireAuthAdmin />}> */}

@@ -21,8 +21,8 @@ const Login = () => {
                 localStorage.setItem("access_token", response.data.access_token);
                 localStorage.setItem("refresh_token", response.data.refresh_token);
                 localStorage.setItem("expired_time", response.data.expired_time);
-                navigate("/");
             }
+            navigate("/");
         } catch (error) {
             console.log(error.response);
             setErr(true)

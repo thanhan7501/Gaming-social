@@ -6,6 +6,7 @@ import { Navigation, Pagination, Mousewheel, Keyboard } from "swiper";
 import { Link } from "react-router-dom";
 import HeaderComponent from '../../../components/header/Header';
 import Post from '../../../components/post/Post';
+import PostUser from '../../../components/postUser/PostUser';
 import postApi from '../../../api/post';
 import "./Home.scss"
 
@@ -62,6 +63,10 @@ const Home = () => {
                 </Card>
 
                 {postList && postList.map((post, index) => (
+                  <PostUser post={post} />
+                ))}
+{/* 
+                {postList && postList.map((post, index) => (
                   <>
                     <Card
                       key={index}
@@ -99,7 +104,9 @@ const Home = () => {
                       />
                     </Card>
                   </>
-                ))}
+                ))} */}
+
+
               </Col>
               <Col xs={0} sm={1} md={2} lg={4} xl={6}>
               </Col>

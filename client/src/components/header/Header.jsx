@@ -4,6 +4,7 @@ import { PageHeader } from 'antd';
 import { Menu, Button } from 'antd';
 import { HomeOutlined, WechatOutlined, UserOutlined } from '@ant-design/icons';
 import { useSelector } from "react-redux";
+import './header.scss';
 
 
 const HeaderComponent = () => {

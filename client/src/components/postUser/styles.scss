@@ -1,0 +1,49 @@
+.dashboard {
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  .card {
+    background-color: #fff;
+    width: 100%;
+    &-header,
+    &-footer {
+      background-color: inherit;
+    }
+    &:nth-child(2n + 1) {
+      margin-top: 15px;
+      margin-bottom: 15px;
+    }
+  }
+  &_user-infor {
+    .user {
+      display: flex;
+    }
+    display: flex;
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+    em {
+      font-size: 14px;
+      color: rgb(174, 174, 174);
+      font-weight: 500;
+    }
+  }
+  .actions {
+    justify-content: space-between;
+    button {
+      min-width: 150px;
+    }
+  }
+}
+
+.imgContent {
+  width: inherit;
+  height: inherit;
+}
+.swiper-wrapper {
+  align-items: center;
+}
