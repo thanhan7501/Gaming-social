@@ -22,7 +22,7 @@ const PostFrame = (props) => {
 
                                     <div className="user-avatar">
                                         <Link to={`/profile/${props.post.user._id}`} >
-                                            <Avatar src={props.post.user.avatar_url} />
+                                            <Avatar src={props.post.user.avatarUrl} />
                                         </Link>
                                     </div>
                                     <div className="ml-3 user-active d-flex flex-column">

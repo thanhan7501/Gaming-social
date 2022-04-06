@@ -15,7 +15,7 @@ const HeaderComponent = () => {
             icon: <HomeOutlined />,
         },
         {
-            path: '/chat',
+            path: '/roomchat',
             breadcrumbName: 'Chat',
             icon: <WechatOutlined />,
         },

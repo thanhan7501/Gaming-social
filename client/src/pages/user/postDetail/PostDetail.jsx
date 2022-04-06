@@ -14,10 +14,9 @@ const PostDetail = () => {
     const getPostDetail = async () => {
         try {
             const response = await postApi.getPostDetail(id);
-            console.log(response)
-            setPost(response)
+            setPost(response);
         } catch (error) {
-            console.log(error)
+
         }
     }
     const data = [

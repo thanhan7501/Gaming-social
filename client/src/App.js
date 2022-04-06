@@ -5,6 +5,8 @@ import Login from "./pages/login/Login";
 import PostDetail from "./pages/user/postDetail/PostDetail";
 import Home from "./pages/user/home/Home";
 import Profile from "./pages/user/profile/Profile";
+import Room from "./pages/user/room/Room";
+import Chat from "./pages/user/chat/Chat";
 
 import Game from "./pages/admin/game/Game";
 
@@ -39,6 +41,8 @@ function App() {
               <Route exact path="" name="home" element={<Home />} />
               <Route exact path="post/:id" name="home" element={<PostDetail />} />
               <Route exact path="profile/:user" name="profile" element={<Profile />} />
+              <Route exact path="roomchat" name="room" element={<Room />} />
+              <Route exact path="roomchat/:id" name="chat" element={<Chat />} />
             </Route>
             {/* Admin routing */}
             {/* <Route element={<RequireAuthAdmin />}> */}

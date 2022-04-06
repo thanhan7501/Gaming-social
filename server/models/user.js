@@ -20,7 +20,7 @@ const user = new Schema({
     default: null,
     required: [true, 'required_fullname']
   },
-  avatar_url: {
+  avatarUrl: {
     type: String,
     trim: true,
     default: 'http://localhost:7000/uploads/default-avatar.png',

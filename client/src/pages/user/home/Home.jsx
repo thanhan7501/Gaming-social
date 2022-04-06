@@ -15,7 +15,6 @@ const Home = () => {
     try {
       const response = await postApi.getAllPost();
       setPostList(response.post)
-      console.log(response)
     } catch (error) {
       console.log(error)
     }

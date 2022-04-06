@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { Table, Image, Space, Layout, Menu, Button } from 'antd';
-import { UploadOutlined, UserOutlined, VideoCameraOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Table, Image, Space, Button } from 'antd';
 import gameApi from '../../../api/game'
 
 import './game.scss'
-
-const { Header, Content, Footer, Sider } = Layout;
 
 const Game = () => {
   const [gameList, setGameList] = useState([]);
@@ -45,7 +42,7 @@ const Game = () => {
   ];
 
   return (
-    
+
     <Table columns={columns} dataSource={gameList} pagination={{ pageSize: 50 }} />
   )
 }

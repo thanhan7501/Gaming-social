@@ -13,7 +13,6 @@ const Post = (props) => {
     const getAllGames = async () => {
         const allGames = await postApi.getAllGames();
         setGameList(allGames.games)
-        console.log(allGames)
     }
     const formItemLayout = {
         labelCol: {
@@ -54,7 +53,6 @@ const Post = (props) => {
         } catch (error) {
             console.log(error.response);
         }
-        console.log('Received values of form: ', values);
         props.Cancel();
         props.onSubmit();
     };

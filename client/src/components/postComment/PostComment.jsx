@@ -3,7 +3,9 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Mousewheel, Keyboard } from "swiper";
 import { Avatar, Image, Button } from 'antd';
 import { EditOutlined, LikeOutlined, EllipsisOutlined, LikeTwoTone } from '@ant-design/icons';
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+
+import likeApi from '../../api/like';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -13,17 +15,24 @@ import "./postComment.scss";
 
 const PostComment = (props) => {
     const [liked, setLiked] = useState(props.post.liked);
+    const [likes, setLikes] = useState(props.post.likes);
+    let { id } = useParams();
 
     console.log(props.post.liked);
 
-    const handleLike = () => {
+    const handleLike = async () => {
+        const values = {
+            postId: id,
+        }
+        const response = await likeApi.like(values);
         setLiked(true);
-        console.log('liked')
+        setLikes(response.likes.likes)
     }
 
-    const handleUnLike = () => {
+    const handleUnLike = async () => {
+        const response = await likeApi.unlike(id);
         setLiked(false);
-        console.log('disliked')
+        setLikes(response.likes.likes)
     }
 
     return (
@@ -36,7 +45,7 @@ const PostComment = (props) => {
                                 <div className="user">
                                     <div className="user-avatar">
                                         <Link to={`/profile/${props.post.post.user._id}`} >
-                                            <Avatar src={props.post.post.user.avatar_url} />
+                                            <Avatar src={props.post.post.user.avatarUrl} />
                                         </Link>
                                     </div>
                                     <div className="ml-3 user-active d-flex flex-column">
@@ -77,6 +86,13 @@ const PostComment = (props) => {
                         </div>
                     </div>
                 </div>
+                <ul className="ant-card-actions">
+                    <li style={{ width: '33.3333%' }}>
+                        <span>
+                            {`${likes} likes`}
+                        </span>
+                    </li>
+                </ul>
                 <ul className="ant-card-actions">
                     <li style={{ width: '33.3333%' }}>
                         <span>

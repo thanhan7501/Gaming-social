@@ -13,12 +13,12 @@ module.exports = {
         await like.save();
         let likes = await Like.find({ post: postId }).count();
         likes = {
-            ...likes,
+            likes,
             postId
         }
         return (ctx.body = {
             status: true,
-            like: likes,
+            likes: likes,
             message: "like success"
         })
     },
@@ -30,12 +30,12 @@ module.exports = {
 
         let likes = await Like.find({ post: postId }).count();
         likes = {
-            ...likes,
+            likes,
             postId
         }
         return (ctx.body = {
             status: true,
-            like: likes,
+            likes: likes,
             message: "unlike success"
         })
     }
