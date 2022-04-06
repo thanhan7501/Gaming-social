@@ -23,7 +23,7 @@ const user = new Schema({
   avatar_url: {
     type: String,
     trim: true,
-    default: null,
+    default: 'http://localhost:7000/uploads/default-avatar.png',
   },
   isAdmin: {
     type: Boolean,

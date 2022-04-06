@@ -1,4 +1,8 @@
-
-@import 'antd/dist/antd.css';
+#root {
+  height: 100%;
+  .ant-layout {
+    min-height: 100vh;
+  }
+}
+@import "antd/dist/antd.css";
 @import "~bootstrap/scss/bootstrap";
-@import "./components/postUser/styles.scss";

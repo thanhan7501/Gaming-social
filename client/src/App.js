@@ -8,6 +8,9 @@ import Profile from "./pages/user/profile/Profile";
 
 import Game from "./pages/admin/game/Game";
 
+import LayoutUser from "./components/layout/LayoutUser";
+import LayoutAdmin from "./components/layout/LayoutAdmin";
+
 import AutoLoginUser from "./auth/AutoLoginUser";
 
 import 'antd/dist/antd.css';
@@ -29,18 +32,25 @@ function App() {
       <BrowserRouter>
         <ScrollToTop />
         <Routes>
-          {/* User routing */}
           <Route exact path="/login" name="login" element={<Login />} />
           <Route element={<AutoLoginUser />}>
-            <Route exact path="/" name="home" element={<Home />} />
-            <Route exact path="/post/:id" name="home" element={<PostDetail />} />
-            <Route exact path="/user/:user" name="profile" element={<Profile />} />
+            {/* User routing */}
+            <Route exact path="/" element={<LayoutUser />}>
+              <Route exact path="" name="home" element={<Home />} />
+              <Route exact path="post/:id" name="home" element={<PostDetail />} />
+              <Route exact path="profile/:user" name="profile" element={<Profile />} />
+            </Route>
+            {/* Admin routing */}
+            {/* <Route element={<RequireAuthAdmin />}> */}
+            <Route exact path="/admin" element={<LayoutAdmin />}>
+              {/* <Route path="" name="admin page" element={<Admin />} /> */}
+              <Route path="game" name="admin page" element={<Game />} />
+            </Route>
+
+
           </Route>
 
-          {/* Admin routing */}
-          {/* <Route element={<RequireAuthAdmin />}> */}
-          {/* <Route path="/admin" name="admin page" element={<Admin />} /> */}
-          <Route path="/admin/game" name="admin page" element={<Game />} />
+
 
           {/* No match routing */}
           {/* <Route path="*" element={<NoMatch />} /> */}

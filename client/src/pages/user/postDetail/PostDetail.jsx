@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Layout, Row, Col, Card, Button, Modal, Avatar, Form, Input, Comment, List } from 'antd';
 import { useParams } from 'react-router-dom';
 import HeaderComponent from '../../../components/header/Header';
-import PostUser from '../../../components/postUser/PostUser';
+import PostComment from '../../../components/postComment/PostComment';
 import postApi from '../../../api/post';
 
 const { TextArea } = Input;
-const { Meta } = Card;
 const { Header, Content } = Layout;
 
 const PostDetail = () => {
@@ -16,7 +15,7 @@ const PostDetail = () => {
         try {
             const response = await postApi.getPostDetail(id);
             console.log(response)
-            setPost(response.post)
+            setPost(response)
         } catch (error) {
             console.log(error)
         }
@@ -43,48 +42,31 @@ const PostDetail = () => {
 
     return (
         <>
-            <Layout className="layout">
-                <Header style={{ position: 'fixed', zIndex: 10000, width: '100%' }}>
-                    <HeaderComponent />
-                </Header>
-                <Content className="site-layout" style={{ padding: '0 50px', marginTop: 64 }}>
-                    <div className="site-layout-background" style={{ padding: 24, minHeight: 380 }}>
-                        <Row>
-                            <Col xs={0} sm={1} md={2} lg={4} xl={6}>
-                            </Col>
-                            <Col xs={24} sm={22} md={20} lg={16} xl={12}>
-                                {post && (
-                                    <>
-                                        <PostUser post={post} />
-                                    </>
-                                )}
-                                <Form.Item>
-                                    <TextArea placeholder="Write something here"
-                                        autoSize={{ minRows: 1, maxRows: 3 }} />
-                                    <List
-                                        className="comment-list"
-                                        itemLayout="horizontal"
-                                        dataSource={data}
-                                        renderItem={item => (
-                                            <li>
-                                                <Card>
-                                                    <Comment
-                                                        author={item.author}
-                                                        avatar={item.avatar}
-                                                        content={item.content}
-                                                    />
-                                                </Card>
-                                            </li>
-                                        )}
-                                    />
-                                </Form.Item>
-                            </Col>
-                            <Col xs={0} sm={1} md={2} lg={4} xl={6}>
-                            </Col>
-                        </Row>
-                    </div>
-                </Content>
-            </Layout>
+            {post && (
+                <>
+                    <PostComment post={post} />
+                </>
+            )}
+            <Form.Item>
+                <TextArea placeholder="Write something here"
+                    autoSize={{ minRows: 1, maxRows: 3 }} />
+                <List
+                    className="comment-list"
+                    itemLayout="horizontal"
+                    dataSource={data}
+                    renderItem={item => (
+                        <li>
+                            <Card>
+                                <Comment
+                                    author={item.author}
+                                    avatar={item.avatar}
+                                    content={item.content}
+                                />
+                            </Card>
+                        </li>
+                    )}
+                />
+            </Form.Item>
         </>
     )
 }

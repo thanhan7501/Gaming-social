@@ -3,9 +3,8 @@ import { Outlet, Navigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logIn, logOut } from "../reducers/isAuthenticatedSlice";
 import { useSelector } from "react-redux";
-import { Spin } from 'antd';
 import authApi from "../api/authApi";
-import './spin.scss'
+import Loading from "../components/loading/Loading";
 
 const AutoLoginUser = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -55,7 +54,7 @@ const AutoLoginUser = () => {
 
   const checkAuthenticate = () => {
     if (isLoading) {
-      return <div className="example"><Spin /></div>;
+      return <Loading />;
     }
 
     if (isAuthenticated === true) return <Outlet />;
