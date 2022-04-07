@@ -6,7 +6,7 @@ const socket = io(baseURL, {
     auth: { token },
 });
 socket.on('connect', (socket) => {
-    console.log(socket); // x8WIv7-mJelg7on_ALbx
+    // console.log(socket); // x8WIv7-mJelg7on_ALbx
 });
 
 export default socket;

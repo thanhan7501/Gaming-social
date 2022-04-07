@@ -11,7 +11,7 @@ let allComment = [];
 const PostDetail = () => {
     let { id } = useParams();
     const [post, setPost] = useState();
-    const [comments, setComments] = useState([]);
+    const [comments, setComments] = useState();
     const [val, setVal] = useState("");
     const getPostDetail = async () => {
         try {
@@ -37,9 +37,10 @@ const PostDetail = () => {
         }
         socket.emit("comment:create", payload)
 
-        socket.on("comment:send", (payload) => {
-            allComment.unshift(payload.newComment);
+        socket.on("comment:send", (newComment) => {
+            allComment.unshift(newComment);
             setComments(allComment);
+            // console.log("send",comments)
         })
         setVal("");
     }
@@ -49,9 +50,10 @@ const PostDetail = () => {
     }, [])
 
     useEffect(() => {
-        socket.on("comment:broadcast", (payload) => {
-            allComment.unshift(payload.newComment);
+        socket.on("comment:broadcast", (newComment) => {
+            allComment.unshift(newComment);
             setComments(allComment);
+            // console.log("broadcast",comments)
         })
     }, [socket])
 
@@ -70,9 +72,9 @@ const PostDetail = () => {
                         }
                     }}
                     value={val}
-                    autoSize={{ minRows: 1, maxRows: 3 }}
+                    autoSize={{ minRows: 1, maxRows: 3 }} 
                     onChange={handleChange}
-                />
+                    />
                 <List
                     className="comment-list"
                     itemLayout="horizontal"

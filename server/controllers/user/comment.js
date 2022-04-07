@@ -18,11 +18,8 @@ module.exports = (io, socket) => {
 
             const newComment = await Comment.findOne({ _id: comment._id}).populate('user', '-password').lean()
 
-            const payload = {
-                newComment
-            }
-            socket.emit("comment:send", payload);
-            socket.broadcast.emit("comment:broadcast", payload);
+            socket.emit("comment:send", newComment);
+            socket.broadcast.emit("comment:broadcast", newComment);
             
         }
 
