@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Mousewheel, Keyboard } from "swiper";
-import { Avatar, Image, Button } from 'antd';
-import { EditOutlined, LikeOutlined, EllipsisOutlined, LikeTwoTone } from '@ant-design/icons';
+import { Avatar, Image, Button, Menu, Dropdown, } from 'antd';
+import { EditOutlined, LikeOutlined, EllipsisOutlined, LikeTwoTone, FlagOutlined, RetweetOutlined } from '@ant-design/icons';
 import { Link, useParams } from "react-router-dom";
 
 import likeApi from '../../api/like';
@@ -32,6 +32,17 @@ const PostComment = (props) => {
         setLiked(false);
         setLikes(response.likes.likes)
     }
+
+    const menu = (
+        <Menu>
+            <Menu.Item key="1" icon={<FlagOutlined />}>
+                Report
+            </Menu.Item>
+            <Menu.Item key="2" icon={<RetweetOutlined />}>
+                Share
+            </Menu.Item>
+        </Menu>
+    );
 
     return (
         <div className="dashboard">
@@ -108,7 +119,9 @@ const PostComment = (props) => {
                     </li>
                     <li style={{ width: '33.3333%' }}>
                         <span>
-                            <EllipsisOutlined />
+                            <Dropdown overlay={menu}>
+                                <EllipsisOutlined />
+                            </Dropdown>
                         </span>
                     </li>
                 </ul>

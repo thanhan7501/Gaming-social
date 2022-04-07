@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Form, Input, Comment, List } from 'antd';
 import { useParams } from 'react-router-dom';
+import { useSelector } from "react-redux";
 import PostComment from '../../../components/postComment/PostComment';
 import postApi from '../../../api/post';
 import socket from '../../../socket/socket'
@@ -11,8 +12,9 @@ let allComment = [];
 const PostDetail = () => {
     let { id } = useParams();
     const [post, setPost] = useState();
-    const [comments, setComments] = useState();
+    const [comments, setComments] = useState([]);
     const [val, setVal] = useState("");
+    const { userInfor } = useSelector((state) => state.isAuthenticated);
     const getPostDetail = async () => {
         try {
             const response = await postApi.getPostDetail(id);
@@ -22,6 +24,12 @@ const PostDetail = () => {
         } catch (error) {
             console.log(error)
         }
+    }
+
+    const userRead = async () => {
+        const roomId  = id;
+        const userId = userInfor._id
+        socket.emit("joinRoom", { userId, roomId });
     }
 
     const handleChange = async (event) => {
@@ -36,26 +44,16 @@ const PostDetail = () => {
             postId: id,
         }
         socket.emit("comment:create", payload)
-
-        socket.on("comment:send", (newComment) => {
-            allComment.unshift(newComment);
-            setComments(allComment);
-            // console.log("send",comments)
-        })
         setVal("");
     }
 
     useEffect(() => {
         getPostDetail();
-    }, [])
-
-    useEffect(() => {
+        userRead();
         socket.on("comment:broadcast", (newComment) => {
-            allComment.unshift(newComment);
-            setComments(allComment);
-            // console.log("broadcast",comments)
+            setComments((comments) => [newComment, ...comments]);
         })
-    }, [socket])
+    }, [])
 
     return (
         <>
