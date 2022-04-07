@@ -2,20 +2,27 @@ import React, { useState, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Mousewheel, Keyboard } from "swiper";
 import { Avatar, Image, Button, Menu, Dropdown, } from 'antd';
-import { EditOutlined, LikeOutlined, EllipsisOutlined, LikeTwoTone, FlagOutlined, RetweetOutlined } from '@ant-design/icons';
-import { Link, useParams } from "react-router-dom";
+import { EditOutlined, LikeOutlined, EllipsisOutlined, DeleteOutlined, LikeTwoTone, FlagOutlined, RetweetOutlined } from '@ant-design/icons';
+import { Link, useParams, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { ToastContainer, toast } from 'react-toastify';
 
 import likeApi from '../../api/like';
+import postApi from '../../api/post'
 
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
+import 'react-toastify/dist/ReactToastify.css';
 import "./postComment.scss";
 
 const PostComment = (props) => {
     const [liked, setLiked] = useState(props.post.liked);
     const [likes, setLikes] = useState(props.post.likes);
+    const navigate = useNavigate()
+
+    const { userInfor } = useSelector((state) => state.isAuthenticated);
     let { id } = useParams();
 
     const handleLike = async () => {
@@ -33,6 +40,22 @@ const PostComment = (props) => {
         setLikes(response.likes.likes)
     }
 
+    const handleDelete = async () => {
+        try {
+            const response = await postApi.deletePost(id);
+            toast.success("Delete success!", {
+                position: toast.POSITION.TOP_RIGHT
+            });
+            setTimeout(() => {
+                navigate('/');
+            }, 3000); 
+        } catch (err) {
+            toast.error("Error, Delete Failed !", {
+                position: toast.POSITION.TOP_RIGHT
+            });
+        }
+    }
+
     const menu = (
         <Menu>
             <Menu.Item key="1" icon={<FlagOutlined />}>
@@ -41,8 +64,15 @@ const PostComment = (props) => {
             <Menu.Item key="2" icon={<RetweetOutlined />}>
                 Share
             </Menu.Item>
+            {(userInfor._id === props.post.post.user._id || userInfor.isAdmin === true) && (
+                <Menu.Item key="3" icon={<DeleteOutlined />} onClick={handleDelete}>
+                    Delete
+                </Menu.Item>
+            )}
         </Menu>
     );
+
+
 
     return (
         <div className="dashboard">
@@ -126,6 +156,7 @@ const PostComment = (props) => {
                     </li>
                 </ul>
             </div>
+            <ToastContainer />
         </div>
     )
 }
