@@ -15,7 +15,6 @@ const AutoLoginUser = () => {
     try {
       const refreshToken = localStorage.getItem("refresh_token");
       const response = await authApi.getNewToken(refreshToken);
-      console.log(response)
       if (response.data && response.status === true) {
         localStorage.setItem("access_token", response.data.access_token);
         localStorage.setItem("refresh_token", response.data.refresh_token);
@@ -36,7 +35,6 @@ const AutoLoginUser = () => {
         getNewToken();
       }, 3480000);
       const response = await authApi.getInfo();
-      console.log(response)
       if (response.info && response.status === true) {
         dispatch(logIn(response.info));
       }

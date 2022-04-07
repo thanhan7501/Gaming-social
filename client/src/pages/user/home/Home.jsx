@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Layout, Row, Col, Card, Button, Modal, Avatar, Form, Input, Comment, List } from 'antd';
-import HeaderComponent from '../../../components/header/Header';
+import { Card, Button, Modal } from 'antd';
 import Post from '../../../components/post/Post';
 import PostFrame from '../../../components/postFrame/PostFrame';
 import postApi from '../../../api/post';
 import "./Home.scss"
 
-const { Header, Content } = Layout;
 
 const Home = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -19,8 +17,6 @@ const Home = () => {
       console.log(error)
     }
   }
-
-  console.log(postList)
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -47,7 +43,7 @@ const Home = () => {
       </Card>
 
       {postList && postList.map((post, index) => (
-        <PostFrame post={post} />
+        <PostFrame key={index} post={post} />
       ))}
 
       <Modal title="Create Post" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}

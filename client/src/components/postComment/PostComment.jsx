@@ -18,8 +18,6 @@ const PostComment = (props) => {
     const [likes, setLikes] = useState(props.post.likes);
     let { id } = useParams();
 
-    console.log(props.post.liked);
-
     const handleLike = async () => {
         const values = {
             postId: id,
@@ -60,7 +58,9 @@ const PostComment = (props) => {
                         </div>
                         <div className="col-md-6">
                             <div className="user-department">
-                                <span>{`is playing ${props.post.post.game.gameName}`}</span>
+                                {props.post.post.game.gameName && (
+                                    <span>{`is playing ${props.post.post.game.gameName}`}</span>
+                                )}
                             </div>
                         </div>
                     </div>

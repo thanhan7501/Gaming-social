@@ -37,7 +37,9 @@ const PostFrame = (props) => {
                         </div>
                         <div className="col-md-6">
                             <div className="user-department">
-                                <span>{`is playing ${props.post.game.gameName}`}</span>
+                                {props.post.game.gameName && (
+                                    <span>{`is playing ${props.post.game.gameName}`}</span>
+                                )}
                             </div>
                         </div>
                     </div>

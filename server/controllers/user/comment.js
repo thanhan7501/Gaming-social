@@ -6,23 +6,24 @@ module.exports = (io, socket) => {
 
     createComment = async (payload) => {
         const { commentContent, postId } = payload;
-        const user = await User.findOne({ _id: socket.decoded.payload }).select("-__v, -password");
-        const post = await post.findOne({ _id: postId }).populate('user').lean();
+        const user = socket.decoded.payload;
+        const post = await Post.findOne({ _id: postId }).populate('user').lean();
         if (post) {
             const comment = new Comment({
                 commentContent: commentContent,
                 post: postId,
                 user: user,
             });
-
-            const payload = {
-                user,
-                comment
-            }
-
             await comment.save()
 
-            socket.broadcast.emit("comment:create", payload)
+            const newComment = await Comment.findOne({ _id: comment._id}).populate('user', '-password').lean()
+
+            const payload = {
+                newComment
+            }
+            socket.emit("comment:send", payload);
+            socket.broadcast.emit("comment:broadcast", payload);
+            
         }
 
         else {
@@ -48,7 +49,7 @@ module.exports = (io, socket) => {
 
         const comment = await Comment.findOneAndUpdate({ _id: commentId }, { commentContent: commentContent });
 
-        socket.broadcast.emit("comment:update", comment)
+        socket.broadcast.emit("comment:fix", comment)
     }
 
 

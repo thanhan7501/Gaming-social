@@ -38,15 +38,16 @@ const Post = (props) => {
     }
     const onFinish = async (values) => {
         const filePath = [];
-        for (let i = 0; i < values.postFile.fileList.length; i++) {
-            filePath.push(values.postFile.fileList[i].response.filePath)
+        if (values.postFile) {
+            for (let i = 0; i < values.postFile.fileList.length; i++) {
+                filePath.push(values.postFile.fileList[i].response.filePath)
+            }
         }
         const value = {
             content: values.content,
             postFile: filePath,
             game: values.game,
         }
-        console.log(value)
         try {
             const response = await postApi.createPost(value);
             console.log(response);

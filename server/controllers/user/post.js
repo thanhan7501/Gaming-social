@@ -127,7 +127,7 @@ module.exports = {
             .populate("user", "-password -createdAt -updatedAt -__v")
             .populate("game", "-createdAt -updatedAt -__v")
             .lean()
-        const comment = await Comment.find({ post: id }).populate("user", "-password -createdAt -updatedAt -__v").lean();
+        const comment = await Comment.find({ post: id }).populate("user", "-password -__v").sort({ createdAt: "DESC" }).lean();
         const likes = await Like.find({ post: id }).count();
         const userLike = await Like.findOne({ user: userId, post: id }).count();
         const liked = userLike === 1 ? true : false;

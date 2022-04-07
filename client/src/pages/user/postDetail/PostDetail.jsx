@@ -1,43 +1,59 @@
 import React, { useState, useEffect } from 'react';
-import { Layout, Row, Col, Card, Button, Modal, Avatar, Form, Input, Comment, List } from 'antd';
+import { Card, Form, Input, Comment, List } from 'antd';
 import { useParams } from 'react-router-dom';
-import HeaderComponent from '../../../components/header/Header';
 import PostComment from '../../../components/postComment/PostComment';
 import postApi from '../../../api/post';
+import socket from '../../../socket/socket'
 
 const { TextArea } = Input;
-const { Header, Content } = Layout;
+let allComment = [];
 
 const PostDetail = () => {
     let { id } = useParams();
     const [post, setPost] = useState();
+    const [comments, setComments] = useState([]);
+    const [val, setVal] = useState("");
     const getPostDetail = async () => {
         try {
             const response = await postApi.getPostDetail(id);
             setPost(response);
+            allComment = response.comment;
+            setComments(allComment);
         } catch (error) {
-
+            console.log(error)
         }
     }
-    const data = [
-        {
-            actions: [<span key="comment-list-reply-to-0">Reply to</span>],
-            author: 'Han Solo',
-            avatar: 'https://joeschmoe.io/api/v1/random',
-            content: (
-                <p>
-                    We supply a series of design principles, practical patterns and high quality design
-                    resources (Sketch and Axure), to help people create their product prototypes beautifully and
-                    efficiently.
-                </p>
-            ),
-        },
-    ];
+
+    const handleChange = async (event) => {
+        setVal(event.target.value);
+    }
+
+    const comment = async (event) => {
+        event.preventDefault();
+        let commentContent = val;
+        const payload = {
+            commentContent: commentContent,
+            postId: id,
+        }
+        socket.emit("comment:create", payload)
+
+        socket.on("comment:send", (payload) => {
+            allComment.unshift(payload.newComment);
+            setComments(allComment);
+        })
+        setVal("");
+    }
 
     useEffect(() => {
         getPostDetail();
     }, [])
 
+    useEffect(() => {
+        socket.on("comment:broadcast", (payload) => {
+            allComment.unshift(payload.newComment);
+            setComments(allComment);
+        })
+    }, [socket])
 
     return (
         <>
@@ -48,18 +64,27 @@ const PostDetail = () => {
             )}
             <Form.Item>
                 <TextArea placeholder="Write something here"
-                    autoSize={{ minRows: 1, maxRows: 3 }} />
+                    onKeyPress={(event) => {
+                        if (event.key === "Enter") {
+                            comment(event);
+                        }
+                    }}
+                    value={val}
+                    autoSize={{ minRows: 1, maxRows: 3 }}
+                    onChange={handleChange}
+                />
                 <List
                     className="comment-list"
                     itemLayout="horizontal"
-                    dataSource={data}
+                    dataSource={comments}
                     renderItem={item => (
                         <li>
                             <Card>
                                 <Comment
-                                    author={item.author}
-                                    avatar={item.avatar}
-                                    content={item.content}
+                                    author={item.user.fullName}
+                                    avatar={item.user.avatarUrl}
+                                    content={item.commentContent}
+                                    datetime={new Date(item.createdAt).toLocaleString()}
                                 />
                             </Card>
                         </li>
