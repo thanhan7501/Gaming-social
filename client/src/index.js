@@ -12,11 +12,13 @@ import { store, persistor } from "./store";
 import Loading from "./components/loading/Loading"
 
 ReactDOM.render(
+  <React.StrictMode>
     <Provider store={store}>
       <PersistGate loading={<Loading />} persistor={persistor}>
         <App />
       </PersistGate>
-    </Provider>,
+    </Provider>
+  </React.StrictMode>,
   document.getElementById("root")
 );
 
