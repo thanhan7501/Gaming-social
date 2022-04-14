@@ -14,6 +14,7 @@ import LayoutUser from "./components/layout/LayoutUser";
 import LayoutAdmin from "./components/layout/LayoutAdmin";
 
 import AutoLoginUser from "./auth/AutoLoginUser";
+import RequireAuthAdmin from "./auth/RequireAuthAdmin";
 
 import 'antd/dist/antd.css';
 import 'swiper/css';
@@ -45,12 +46,12 @@ function App() {
               <Route exact path="roomchat/:id" name="chat" element={<Chat />} />
             </Route>
             {/* Admin routing */}
-            {/* <Route element={<RequireAuthAdmin />}> */}
-            <Route exact path="/admin" element={<LayoutAdmin />}>
-              {/* <Route path="" name="admin page" element={<Admin />} /> */}
-              <Route path="game" name="admin page" element={<Game />} />
+            <Route element={<RequireAuthAdmin />}>
+              <Route exact path="/admin" element={<LayoutAdmin />}>
+                {/* <Route path="" name="admin page" element={<AdminDashboard />} /> */}
+                <Route path="game" name="admin page" element={<Game />} />
+              </Route>
             </Route>
-
 
           </Route>
 

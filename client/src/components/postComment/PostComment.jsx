@@ -43,12 +43,19 @@ const PostComment = (props) => {
     const handleDelete = async () => {
         try {
             const response = await postApi.deletePost(id);
-            toast.success("Delete success!", {
-                position: toast.POSITION.TOP_RIGHT
-            });
-            setTimeout(() => {
-                navigate('/');
-            }, 3000); 
+            if (response.status === true) {
+                toast.success("Delete success!", {
+                    position: toast.POSITION.TOP_RIGHT
+                });
+                setTimeout(() => {
+                    navigate('/');
+                }, 3000);
+            }
+            else {
+                toast.error("Error, Delete Failed !", {
+                    position: toast.POSITION.TOP_RIGHT
+                });
+            }
         } catch (err) {
             toast.error("Error, Delete Failed !", {
                 position: toast.POSITION.TOP_RIGHT

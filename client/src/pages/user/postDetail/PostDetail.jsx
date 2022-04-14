@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Form, Input, Comment, List } from 'antd';
 import { useParams } from 'react-router-dom';
-import { useSelector } from "react-redux";
 import PostComment from '../../../components/postComment/PostComment';
 import postApi from '../../../api/post';
 import socket from '../../../socket/socket'
@@ -14,7 +13,6 @@ const PostDetail = () => {
     const [post, setPost] = useState();
     const [comments, setComments] = useState([]);
     const [val, setVal] = useState("");
-    const { userInfor } = useSelector((state) => state.isAuthenticated);
     const getPostDetail = async () => {
         try {
             const response = await postApi.getPostDetail(id);
@@ -28,8 +26,7 @@ const PostDetail = () => {
 
     const userRead = async () => {
         const roomId  = id;
-        const userId = userInfor._id
-        socket.emit("joinRoom", { userId, roomId });
+        socket.emit("joinRoom", { roomId });
     }
 
     const handleChange = async (event) => {

@@ -5,7 +5,8 @@ const utils = require("../../utils/joinUser")
 
 module.exports = (io, socket) => {
 
-    userJoin = async ({ userId, roomId }) => {
+    userJoin = async ({ roomId }) => {
+        const userId = socket.decoded.payload;
         const user = utils.joinUser(socket.id, userId, roomId);
         socket.join(user.roomId);
     }
@@ -32,30 +33,6 @@ module.exports = (io, socket) => {
         }
     }
 
-    deleteComment = async (payload) => {
-        const { commentId, postId } = payload;
-        if (!commentId) {
-            throw new Error('comment not found');
-        }
-
-        await Comment.deleteOne({ _id: commentId })
-    }
-
-    updateComment = async (payload) => {
-        const { commentContent, commentId, postId } = payload;
-
-        if (!commentId || commentContent) {
-            throw new Error('comment not found');
-        }
-
-        const comment = await Comment.findOneAndUpdate({ _id: commentId }, { commentContent: commentContent });
-
-        socket.broadcast.emit("comment:fix", comment)
-    }
-
-
     socket.on("comment:create", createComment);
-    socket.on("comment:delete", deleteComment);
-    socket.on("comment:update", updateComment);
     socket.on("joinRoom", userJoin)
 }

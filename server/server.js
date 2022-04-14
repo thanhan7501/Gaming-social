@@ -120,7 +120,7 @@ io.use(async function (socket, next) {
             socket.decoded = decoded;
             next();
         } catch (err) {
-            return next(new Error('Authentication error'));
+            next(new Error('Authentication error'));
         }
     } else {
         next(new Error('Authentication error'));

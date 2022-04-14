@@ -38,6 +38,9 @@ const AutoLoginUser = () => {
       if (response.info && response.status === true) {
         dispatch(logIn(response.info));
       }
+      else {
+        dispatch(logOut());
+      }
       setIsLoading(false);
     } catch (err) {
       console.log(err);
