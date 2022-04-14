@@ -45,6 +45,7 @@ module.exports = {
 
     deletePost: async (ctx) => {
         const id = ctx.params.id;
+        const user = ctx.state.user;
 
         if (!id) {
             return (ctx.body = {
@@ -53,12 +54,16 @@ module.exports = {
             })
         }
 
-        const deletePost = await Post.deleteOne({ _id: id });
-        if (deletePost.deletedCount === 0) {
+        const deletePost = await Post.findOneAndDelete({ _id: id });
+        if (!deletePost) {
             return (ctx.body = {
                 status: false,
                 message: "no post found"
             })
+        }
+
+        if (user.isAdmin === true) {
+            // sendMail
         }
 
         return (ctx.body = {

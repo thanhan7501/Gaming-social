@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const share = new Schema({
-    user: {
+const report = new Schema({
+    reportedUser: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "user",
         require: true,
@@ -19,4 +19,4 @@ const share = new Schema({
     },
 });
 
-module.exports = mongoose.model("share", share);
+module.exports = mongoose.model("report", report);
