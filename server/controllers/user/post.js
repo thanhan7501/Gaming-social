@@ -54,7 +54,7 @@ module.exports = {
             })
         }
 
-        const deletePost = await Post.findOneAndDelete({ _id: id });
+        const deletePost = await Post.findOneAndDelete({ _id: id }).populate('user');
         if (!deletePost) {
             return (ctx.body = {
                 status: false,
@@ -63,7 +63,11 @@ module.exports = {
         }
 
         if (user.isAdmin === true) {
-            // sendMail
+            sendEmail({
+                to: deletePost.user.email,
+                subject: "Social Gaming",
+                html: "<p>Your post has been deleted by the admin as it was believed to be violated the community standards</p>",
+            });
         }
 
         return (ctx.body = {

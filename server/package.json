@@ -28,6 +28,7 @@
     "koa-static": "^5.0.0",
     "mongodb": "^3.6.3",
     "mongoose": "^6.0.13",
+    "nodemailer": "^6.7.3",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
