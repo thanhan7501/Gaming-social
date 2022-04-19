@@ -1,6 +1,7 @@
 const Post = require("../../models/post");
 const Comment = require("../../models/comment");
 const Like = require("../../models/like");
+const sendEmail = require("../../middleware/nodemailer")
 
 const getPath = (path) => {
     return process.env.BASE_URL + "/" + path[path.length - 2] + "/" + path[path.length - 1];
