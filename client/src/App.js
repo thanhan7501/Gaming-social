@@ -16,7 +16,7 @@ import LayoutAdmin from "./components/layout/LayoutAdmin";
 import AutoLoginUser from "./auth/AutoLoginUser";
 import RequireAuthAdmin from "./auth/RequireAuthAdmin";
 
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.min.css';
 import 'swiper/css';
 import './App.scss';
 

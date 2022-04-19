@@ -1,0 +1,9 @@
+@media only screen and (max-width: 1200px) {
+    .site-layout {
+        padding: 0 !important;
+
+        &-background {
+            padding: 24px 0 !important;
+        }
+    }
+}

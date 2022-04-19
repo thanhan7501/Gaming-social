@@ -106,8 +106,12 @@ const io = new Server(httpServer, {
 const registerCommentHandlers = require('./controllers/user/comment');
 
 const onConnection = (socket) => {
-    console.log(socket.id);
+    console.log(socket.id, "user join");
     registerCommentHandlers(io, socket);
+
+    socket.on('disconnect', () => {
+        console.log('user disconnected');
+    })
 };
 
 io.sockets.setMaxListeners(0);

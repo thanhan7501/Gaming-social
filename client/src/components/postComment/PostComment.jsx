@@ -79,8 +79,6 @@ const PostComment = (props) => {
         </Menu>
     );
 
-
-
     return (
         <div className="dashboard">
             <div className="card">

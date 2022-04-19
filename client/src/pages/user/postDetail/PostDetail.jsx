@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Form, Input, Comment, List } from 'antd';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import PostComment from '../../../components/postComment/PostComment';
 import postApi from '../../../api/post';
 import socket from '../../../socket/socket'
@@ -10,6 +10,7 @@ let allComment = [];
 
 const PostDetail = () => {
     let { id } = useParams();
+    const location = useLocation();
     const [post, setPost] = useState();
     const [comments, setComments] = useState([]);
     const [val, setVal] = useState("");
@@ -50,7 +51,12 @@ const PostDetail = () => {
         socket.on("comment:broadcast", (newComment) => {
             setComments((comments) => [newComment, ...comments]);
         })
-    }, [])
+
+        return () => {
+            socket.disconnect();
+            socket.off();
+        }
+    }, [location.pathname])
 
     return (
         <>

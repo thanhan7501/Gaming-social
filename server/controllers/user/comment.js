@@ -1,14 +1,12 @@
 const Comment = require("../../models/comment");
 const Post = require("../../models/post")
-const User = require("../../models/user")
 const utils = require("../../utils/joinUser")
 
 module.exports = (io, socket) => {
 
     userJoin = async ({ roomId }) => {
         const userId = socket.decoded.payload;
-        const user = utils.joinUser(socket.id, userId, roomId);
-        socket.join(user.roomId);
+        socket.join(roomId);
     }
 
     createComment = async (payload) => {

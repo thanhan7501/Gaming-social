@@ -23,7 +23,7 @@ const user = new Schema({
   avatarUrl: {
     type: String,
     trim: true,
-    default: 'http://localhost:7000/uploads/default-avatar.png',
+    default: 'https://api-social-gaming.annt.software/uploads/default-avatar.png',
   },
   isAdmin: {
     type: Boolean,

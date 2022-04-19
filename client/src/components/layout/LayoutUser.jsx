@@ -4,6 +4,8 @@ import { Navigate, Outlet } from 'react-router-dom';
 
 import HeaderComponent from '../../components/header/Header'
 
+import './layoutUser.scss';
+
 const { Header, Content } = Layout;
 
 const LayoutUser = () => {
