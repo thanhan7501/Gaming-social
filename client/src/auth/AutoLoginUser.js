@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Outlet, Navigate, useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logIn, logOut } from "../reducers/isAuthenticatedSlice";
-import { useSelector } from "react-redux";
 import authApi from "../api/authApi";
 import Loading from "../components/loading/Loading";
 

@@ -1,4 +1,5 @@
-const Message = require('../../models/message')
+const Message = require('../../models/message');
+const Game = require('../../models/game');
 
 module.exports = {
     getRoomMessages: async (ctx) => {
@@ -10,12 +11,14 @@ module.exports = {
             }
         }
 
+        const room = await Game.findById(id).lean()
         const messages = await Message.find({ game: id }).populate('user').lean();
         return ctx.body = {
             status: true,
             message: 'get messages success',
             data: {
-                messages
+                messages,
+                room
             }
         }
     }
