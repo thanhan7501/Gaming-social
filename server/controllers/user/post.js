@@ -127,6 +127,7 @@ module.exports = {
     getPostDetail: async (ctx) => {
         const id = ctx.params.id;
         const userId = ctx.state.user._id;
+        await Post.updateOne({ _id: id }, { $inc: { viewCount: 1 } })
         if (!id) {
             return (ctx.body = {
                 status: false,

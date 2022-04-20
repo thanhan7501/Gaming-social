@@ -17,6 +17,14 @@ const post = new Schema({
         trim: true,
         require: true,
     },
+    viewCount: {
+        type: Number,
+        default: 0,
+    },
+    likeCount: {
+        type: Number,
+        default: 0,
+    },
     postFile: [{
         type: String,
         trim: true,

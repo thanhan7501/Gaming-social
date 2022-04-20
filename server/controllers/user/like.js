@@ -11,6 +11,7 @@ module.exports = {
         })
 
         await like.save();
+        await Post.updateOne({ _id: postId }, { $inc: { likeCount: 1 } });
         let likes = await Like.find({ post: postId }).count();
         likes = {
             likes,
@@ -26,8 +27,10 @@ module.exports = {
     unlike: async (ctx) => {
         const postId = ctx.params.id;
         const userId = ctx.state.user._id;
-        await Like.deleteOne({ post: postId, user: userId });
-
+        const deleteAction = await Like.deleteOne({ post: postId, user: userId });
+        if (deleteAction.deletedCount === 1) {
+            await Post.updateOne({ _id: postId }, { $inc: { likeCount: -1 } });
+        }
         let likes = await Like.find({ post: postId }).count();
         likes = {
             likes,

@@ -5,6 +5,7 @@ const post = require("./post")
 const like = require("./like")
 const share = require("./share")
 const report = require("./report")
+const room = require("./room")
 const passport = require("koa-passport");
 require("../../../middleware/passport");
 
@@ -17,5 +18,7 @@ router.use(passport.authenticate("jwt-access", { failWithError: true }), like)
 router.use(passport.authenticate("jwt-access", { failWithError: true }), share)
 
 router.use(passport.authenticate("jwt-access", { failWithError: true }), report)
+
+router.use(passport.authenticate("jwt-access", { failWithError: true }), room)
 
 module.exports = router.routes();

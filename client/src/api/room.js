@@ -2,7 +2,7 @@ import axiosClient from "./axiosClient";
 
 class RoomApi {
     getRoomMessages = (id) => {
-        const url = `/user/post/${id}`
+        const url = `/user/roomchat/${id}`
         return axiosClient.get(url);
     }
 }

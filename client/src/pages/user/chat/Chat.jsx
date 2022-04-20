@@ -1,12 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import socket from "../../../socket/socket"
+import roomApi from '../../../api/room';
 
-const Chat = () => {
+import MessageInput from '../../../components/messageInput/MessageInput'
+
+let allMessages = [];
+
+const ChatRoom = () => {
   const location = useLocation();
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([])
   let { id } = useParams();
+  const getRoomMessages = async () => {
+    try {
+      const response = await roomApi.getRoomMessages(id);
+      allMessages = response.data.messages;
+      setMessages(allMessages);
+  } catch (error) {
+      console.log(error)
+  }
+}
+
   const userJoinRoom = async () => {
     const roomId = id;
     socket.emit("joinRoom", { roomId });
@@ -27,6 +42,7 @@ const Chat = () => {
   }
 
   useEffect(() => {
+    getRoomMessages();
     userJoinRoom();
     return () => {
       socket.disconnect();
@@ -36,13 +52,15 @@ const Chat = () => {
 
   useEffect(() => {
     socket.on("chat:broadcast", (userChat) => {
-      setMessages([...messages, userChat])
+      setMessages((messages) => [...messages, userChat])
     })
-  }, [messages])
+  }, [])
 
   return (
-    <div>Chat</div>
+    <>
+        <MessageInput />
+    </>
   )
 }
 
-export default Chat;
+export default ChatRoom;
