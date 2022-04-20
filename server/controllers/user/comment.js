@@ -27,7 +27,7 @@ module.exports = (io, socket) => {
         }
 
         else {
-            throw new Error('post not found');
+            socket.emit("error", "Something went wrong")
         }
     }
 
