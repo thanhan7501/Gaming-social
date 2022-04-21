@@ -96,7 +96,7 @@ const Login = () => {
                         </Form.Item>
                         {err === true &&
                             (<>
-                                <div class="ant-form-item-explain-error">*Email or password is not correct</div>
+                                <div className="ant-form-item-explain-error">*Email or password is not correct</div>
                             </>)}
                         <Form.Item>
                             <Button type="primary" htmlType="submit" className="login-form-button">
