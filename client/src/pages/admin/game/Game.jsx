@@ -42,8 +42,12 @@ const Game = () => {
   ];
 
   return (
-
-    <Table columns={columns} dataSource={gameList} pagination={{ pageSize: 50 }} />
+    <>
+      <Button type="primary" block>
+        Primary
+      </Button>
+      <Table columns={columns} dataSource={gameList} pagination={{ pageSize: 50 }} />
+    </>
   )
 }
 

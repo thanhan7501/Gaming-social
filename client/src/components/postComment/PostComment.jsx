@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Mousewheel, Keyboard } from "swiper";
-import { Avatar, Image, Button, Menu, Dropdown, } from 'antd';
+import { Avatar, Image, Menu, Dropdown, Radio, Space, Modal } from 'antd';
 import { EditOutlined, LikeOutlined, EllipsisOutlined, DeleteOutlined, LikeTwoTone, FlagOutlined, RetweetOutlined } from '@ant-design/icons';
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { ToastContainer, toast } from 'react-toastify';
 
+import ModalDelete from '../modalDelete/ModalDelete';
+
 import likeApi from '../../api/like';
 import postApi from '../../api/post'
+import reportApi from '../../api/report';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -20,10 +23,42 @@ import "./postComment.scss";
 const PostComment = (props) => {
     const [liked, setLiked] = useState(props.post.liked);
     const [likes, setLikes] = useState(props.post.likes);
-    const navigate = useNavigate()
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [isReportVisible, setIsReportVisible] = useState(false);
+    const [value, setValue] = useState()
+    const onChange = (e) => {
+        setValue(e.target.value)
+    }
+    const navigate = useNavigate();
 
     const { userInfor } = useSelector((state) => state.isAuthenticated);
     let { id } = useParams();
+
+    const showModal = () => {
+        setIsModalVisible(true);
+    };
+
+    const handleOk = () => {
+        handleDelete();
+        setIsModalVisible(false);
+    };
+
+    const handleCancel = () => {
+        setIsModalVisible(false);
+    };
+
+    const showReport = () => {
+        setIsReportVisible(true);
+    };
+
+    const handleOkReport = () => {
+        handleReport();
+        setIsReportVisible(false);
+    };
+
+    const handleCancelReport = () => {
+        setIsReportVisible(false);
+    };
 
     const handleLike = async () => {
         const values = {
@@ -38,6 +73,28 @@ const PostComment = (props) => {
         const response = await likeApi.unlike(id);
         setLiked(false);
         setLikes(response.likes.likes)
+    }
+
+    const handleReport = async () => {
+        const values = {
+            postId: id,
+            reason: value
+        }
+        try {
+            const response = await reportApi.reportPost(values);
+            if(response.status === true) {
+                toast.success("Report success!", {
+                    position: toast.POSITION.TOP_RIGHT
+                });
+            }
+            else {
+                toast.error("Error, Report Failed !", {
+                    position: toast.POSITION.TOP_RIGHT
+                });
+            }
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     const handleDelete = async () => {
@@ -65,14 +122,14 @@ const PostComment = (props) => {
 
     const menu = (
         <Menu>
-            <Menu.Item key="1" icon={<FlagOutlined />}>
+            <Menu.Item key="1" icon={<FlagOutlined />} onClick={showReport}>
                 Report
             </Menu.Item>
             <Menu.Item key="2" icon={<RetweetOutlined />}>
                 Share
             </Menu.Item>
             {(userInfor._id === props.post.post.user._id || userInfor.isAdmin === true) && (
-                <Menu.Item key="3" icon={<DeleteOutlined />} onClick={handleDelete}>
+                <Menu.Item key="3" icon={<DeleteOutlined />} onClick={showModal} >
                     Delete
                 </Menu.Item>
             )}
@@ -162,6 +219,16 @@ const PostComment = (props) => {
                 </ul>
             </div>
             <ToastContainer />
+            <ModalDelete isModalVisible={isModalVisible} handleOk={handleOk} handleCancel={handleCancel} action ="delete this post" />
+            <Modal title="Report Reason" visible={isReportVisible} onOk={handleOkReport} onCancel={handleCancelReport}>
+                <Radio.Group onChange={onChange} value={value}>
+                    <Space direction="vertical">
+                        <Radio value='Hate Speech' selected>Hate Speech</Radio>
+                        <Radio value='Violate Law'>Violate Law</Radio>
+                        <Radio value='Scam'>Scam</Radio>
+                    </Space>
+                </Radio.Group>
+            </Modal>
         </div>
     )
 }

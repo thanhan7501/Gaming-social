@@ -2,11 +2,12 @@ const Report = require('../../models/report')
 
 module.exports = {
     reportPost: async (ctx) => {
-        const { postId } = ctx.request.body;
-        const userId = ctx.state.user.user._id;
+        const { postId, reason } = ctx.request.body;
+        const userId = ctx.state.user._id;
         const report = new Report({
             reportedUser: userId, 
-            post: postId
+            post: postId,
+            reason: reason,
         })
         await report.save();
 

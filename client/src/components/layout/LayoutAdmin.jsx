@@ -1,6 +1,6 @@
 import React from 'react';
 import { Layout, Menu } from 'antd';
-import { UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
+import { UploadOutlined, UserOutlined, NotificationOutlined } from '@ant-design/icons';
 import { Outlet, Link } from 'react-router-dom';
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -16,6 +16,11 @@ const LayoutAdmin = () => {
             path: '/admin/game',
             breadcrumbName: 'Game',
             icon: <UploadOutlined />,
+        },
+        {
+            path: '/admin/report',
+            breadcrumbName: 'Report',
+            icon: <NotificationOutlined />,
         },
     ];
 

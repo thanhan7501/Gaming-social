@@ -21,12 +21,13 @@ import {
 import socket from "../../../socket/socket"
 import roomApi from '../../../api/room';
 
+
+import './Chat.scss'
 let allMessages = [];
 
 const ChatRoom = () => {
   const location = useLocation();
   const { userInfor } = useSelector((state) => state.isAuthenticated);
-  console.log(userInfor)
   const [message, setMessage] = useState("");
   const [room, setRoom] = useState();
   const [messages, setMessages] = useState([])
@@ -76,15 +77,8 @@ const ChatRoom = () => {
 
   return (
     <>
-      <div style={{ position: "relative", height: "600px", overflow: "hidden" }}>
-        <MainContainer>
-          <Sidebar position="left" scrollable={false}>
-            <ConversationList>
-              <Conversation name="Lilly">
-                <Avatar src={`https://joeschmoe.io/api/v1/random`} name="Lilly" status="available" />
-              </Conversation>
-            </ConversationList>
-          </Sidebar>
+      <div style={{ position: "relative", overflow: "hidden" }}>
+        <MainContainer className="chat-config">
           <ChatContainer>
             {room && (
               <ConversationHeader>

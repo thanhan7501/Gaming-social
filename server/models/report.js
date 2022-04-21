@@ -12,6 +12,10 @@ const report = new Schema({
         ref: "post",
         require: true,
     },
+    reason: {
+        type: String,
+        required: true,
+    }
 }, {
     timestamps: {
         createdAt: "createdAt",
