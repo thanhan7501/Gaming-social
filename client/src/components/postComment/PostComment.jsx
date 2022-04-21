@@ -195,6 +195,11 @@ const PostComment = (props) => {
                             {`${likes} likes`}
                         </span>
                     </li>
+                    <li style={{ width: '33.3333%' }}>
+                        <span>
+                            {`${props.post.post.viewCount} views`}
+                        </span>
+                    </li>
                 </ul>
                 <ul className="ant-card-actions">
                     <li style={{ width: '33.3333%' }}>

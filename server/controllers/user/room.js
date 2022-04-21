@@ -12,7 +12,7 @@ module.exports = {
         }
 
         const room = await Game.findById(id).lean()
-        const messages = await Message.find({ game: id }).populate('user').lean();
+        const messages = await Message.find({ room: id }).populate('user').lean();
         return ctx.body = {
             status: true,
             message: 'get messages success',

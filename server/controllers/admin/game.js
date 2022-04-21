@@ -6,9 +6,11 @@ const getPath = (path) => {
 
 module.exports = {
     createGame: async (ctx) => {
-        let game = new Game(ctx.request.body)
-        let imgPath = ctx.request.files.gameAvatar[0].path.split("\\");
-        game.gameAvatar = getPath(imgPath);
+        const { gameName, gameAvatar } = ctx.request.body
+        let game = new Game({
+            gameName: gameName,
+            gameAvatar: gameAvatar
+        })
         await game.save();
         return (ctx.body = {
             status: true,

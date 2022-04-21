@@ -8,7 +8,7 @@ class GameApi {
 
   createGame = (values) => {
     const url = "/admin/create-game";
-    return axiosClient.get(url, values);
+    return axiosClient.post(url, values);
   };
 
   deleteGame = (id) => {

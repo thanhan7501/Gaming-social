@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Button, Modal } from 'antd';
+import { Card, Button, Modal, Divider, Select  } from 'antd';
 import Post from '../../../components/post/Post';
 import PostFrame from '../../../components/postFrame/PostFrame';
 import postApi from '../../../api/post';
 import "./Home.scss"
 
+const { Option } = Select;
 
 const Home = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [postList, setPostList] = useState([]);
-  const getAllPost = async () => {
+  const getAllPost = async (value) => {
     try {
-      const response = await postApi.getAllPost();
+      const response = await postApi.getAllPost(value);
+      console.log(response);
       setPostList(response.post)
     } catch (error) {
       console.log(error)
@@ -30,8 +32,12 @@ const Home = () => {
     setIsModalVisible(false);
   };
 
+  const handleChange = (value) => {
+    getAllPost(value);
+  }
+
   useEffect(() => {
-    getAllPost();
+    getAllPost('newest');
   }, [])
 
   return (
@@ -41,7 +47,13 @@ const Home = () => {
           What's on your mind ?
         </Button>
       </Card>
-
+      <Divider orientation="left">
+        <Select defaultValue="Newest" style={{ width: 120 }} onChange={handleChange}>
+          <Option value="newest">Newest</Option>
+          <Option value="like">Most Like</Option>
+          <Option value="view">Most View</Option>
+        </Select>
+      </Divider>
       {postList && postList.map((post, index) => (
         <PostFrame key={index} post={post} />
       ))}

@@ -67,6 +67,18 @@ const PostFrame = (props) => {
                     </div>
                 </div>
                 <ul className="ant-card-actions">
+                    <li style={{ width: '33.3333%' }}>
+                        <span>
+                            {`${props.post.likeCount} likes`}
+                        </span>
+                    </li>
+                    <li style={{ width: '33.3333%' }}>
+                        <span>
+                            {`${props.post.viewCount} views`}
+                        </span>
+                    </li>
+                </ul>
+                <ul className="ant-card-actions">
                     <li style={{ width: '100%' }}>
                         <span>
                             <Link to={`/post/${props.post._id}`}>

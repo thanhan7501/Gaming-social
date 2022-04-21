@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from "react-redux";
 import styles from "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 import {
@@ -9,9 +9,6 @@ import {
   Message,
   MessageInput,
   Avatar,
-  Sidebar,
-  ConversationList,
-  Conversation,
   ConversationHeader,
   VoiceCallButton,
   VideoCallButton
@@ -27,6 +24,7 @@ let allMessages = [];
 
 const ChatRoom = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { userInfor } = useSelector((state) => state.isAuthenticated);
   const [message, setMessage] = useState("");
   const [room, setRoom] = useState();
@@ -35,6 +33,7 @@ const ChatRoom = () => {
   const getRoomMessages = async () => {
     try {
       const response = await roomApi.getRoomMessages(id);
+      console.log(response);
       allMessages = response.data.messages;
       setMessages(allMessages);
       setRoom(response.data.room)
@@ -43,16 +42,20 @@ const ChatRoom = () => {
     }
   }
 
-  const userJoinRoom = async () => {
+  const userJoinRoom = () => {
     const roomId = id;
     socket.emit("joinRoom", { roomId });
   }
 
-  const handleChange = async (value) => {
+  const handleChange = (value) => {
     setMessage(value);
   }
 
-  const sendMessage = async () => {
+  const handleClick = () => {
+    navigate('/roomchat')
+  }
+
+  const sendMessage = () => {
     const payload = {
       newMessage: message,
       roomId: id,
@@ -82,7 +85,7 @@ const ChatRoom = () => {
           <ChatContainer>
             {room && (
               <ConversationHeader>
-                <ConversationHeader.Back />
+                <ConversationHeader.Back onClick={handleClick} />
                 <Avatar src={room.gameAvatar} name={room.gameName} />
                 <ConversationHeader.Content userName={room.gameName} />
                 <ConversationHeader.Actions>
