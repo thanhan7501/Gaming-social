@@ -6,6 +6,7 @@ import {
     Checkbox,
     Button,
 } from 'antd';
+import { ToastContainer, toast } from 'react-toastify';
 
 import authApi from "../../../api/authApi";
 
@@ -17,11 +18,9 @@ const Register = () => {
 
     const onFinish = async (values) => {
         try {
-            console.log(values)
             const register = await authApi.register(values);
             if (register.status === true) {
                 const response = await authApi.login(values);
-                console.log(response)
                 if (response.data && response.status === true) {
                     localStorage.setItem("access_token", response.data.access_token);
                     localStorage.setItem("refresh_token", response.data.refresh_token);
@@ -35,6 +34,9 @@ const Register = () => {
             }
         } catch (error) {
             console.log(error.response);
+            toast.error("Error, Register Failed!", {
+                position: toast.POSITION.TOP_RIGHT
+            });
         }
     };
 
@@ -181,6 +183,7 @@ const Register = () => {
                     </Button>
                 </Form.Item>
             </Form>
+            <ToastContainer />
         </>
     );
 };

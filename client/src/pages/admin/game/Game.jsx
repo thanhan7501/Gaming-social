@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Table, Image, Space, Button, Modal, Input, Form, Upload, Select, Avatar, } from 'antd';
-import { UploadOutlined, UserOutlined } from '@ant-design/icons';
+import { Table, Image, Space, Button, Modal, Input, Form, Upload } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
 import gameApi from '../../../api/game'
 
 import './game.scss'
@@ -149,6 +149,7 @@ const Game = () => {
               // beforeUpload={beforeUpload}
               headers={authorization}
               name="postFile"
+              maxCount={1}
             >
               <Button icon={<UploadOutlined />}>Upload</Button>
             </Upload>

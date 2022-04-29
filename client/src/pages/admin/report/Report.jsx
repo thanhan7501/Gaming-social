@@ -34,6 +34,12 @@ const Report = () => {
       key: 'reason',
       render: text => <p>This post was believed to violate the community standards and was reported for the following reason: {text}</p>
     },
+    {
+      title: 'Reported time',
+      dataIndex: 'createdAt',
+      key: 'createdAt',
+      render: text => <p>{new Date(text).toLocaleString()}</p>
+    },
   ];
 
 

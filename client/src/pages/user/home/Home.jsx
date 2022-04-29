@@ -13,7 +13,6 @@ const Home = () => {
   const getAllPost = async (value) => {
     try {
       const response = await postApi.getAllPost(value);
-      console.log(response);
       setPostList(response.post)
     } catch (error) {
       console.log(error)

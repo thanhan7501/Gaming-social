@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Menu, Button } from 'antd';
-import { HomeOutlined, WechatOutlined, UserOutlined } from '@ant-design/icons';
+import { HomeOutlined, WechatOutlined, UserOutlined, LogoutOutlined } from '@ant-design/icons';
 import { useSelector } from "react-redux";
 import './header.scss';
 
@@ -23,6 +23,11 @@ const HeaderComponent = () => {
             path: `/profile/${userInfor._id}`,
             breadcrumbName: 'Profile',
             icon: <UserOutlined />,
+        },
+        {
+            path: `/logout`,
+            breadcrumbName: 'Logout',
+            icon: <LogoutOutlined />,
         },
     ];
 
