@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Image, Modal, Input, Form, Upload, Button } from 'antd';
+import { Image, Modal, Form, Upload, Button } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { useParams } from 'react-router-dom';
+import { useSelector } from "react-redux";
 
 import PostFrame from '../../../components/postFrame/PostFrame'
 
@@ -14,6 +15,7 @@ const Profile = () => {
   const [userProfile, setUserProfile] = useState();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [form] = Form.useForm();
+  const { userInfor } = useSelector((state) => state.isAuthenticated);
   const urlUploadFile = `${process.env.REACT_APP_API_URL}/user/post/file`
   let { user } = useParams();
   const getProfile = async () => {
@@ -106,9 +108,11 @@ const Profile = () => {
                 <Image src={userProfile.avatarUrl} />
               </div>
               <div id="u-name">{userProfile.fullName}</div>
-              <div id="edit-profile">
-                <button class="btn btn-info" onClick={showModal}>Edit</button>
-              </div>
+              {(userInfor._id === userProfile._id && (
+                <div id="edit-profile">
+                  <button class="btn btn-info" onClick={showModal}>Edit</button>
+                </div>
+              ))}
             </div>
           }
           <div id="black-grd"></div>
