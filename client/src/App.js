@@ -10,6 +10,7 @@ import ChatRoom from "./pages/user/chat/Chat";
 
 import Game from "./pages/admin/game/Game";
 import Report from "./pages/admin/report/Report";
+import Dashboard from "./pages/admin/Dashboard/Dashboard"
 
 import LayoutUser from "./components/layout/LayoutUser";
 import LayoutAdmin from "./components/layout/LayoutAdmin";
@@ -49,6 +50,7 @@ function App() {
             {/* Admin routing */}
             <Route element={<RequireAuthAdmin />}>
               <Route exact path="/admin" element={<LayoutAdmin />}>
+                <Route path="" name="admin page" element={<Dashboard />} />
                 <Route path="report" name="admin page" element={<Report />} />
                 <Route path="game" name="admin page" element={<Game />} />
               </Route>
