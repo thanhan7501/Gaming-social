@@ -7,6 +7,7 @@ module.exports = {
         const post = await Post.find({ user: userId })
             .populate("user", "-password -createdAt -updatedAt -__v")
             .populate("game", "-createdAt -updatedAt -__v")
+            .sort({ createdAt: "DESC" })
             .lean();
 
         const userProfile = await User.findOne({ _id: userId }).select("-__v -createdAt -updatedAt -password").lean()
