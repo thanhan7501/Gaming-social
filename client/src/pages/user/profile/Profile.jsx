@@ -96,7 +96,7 @@ const Profile = () => {
 
   useEffect(() => {
     getProfile();
-  }, [])
+  }, [user])
 
   return (
     <>
