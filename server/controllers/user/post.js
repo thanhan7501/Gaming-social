@@ -1,4 +1,5 @@
 const Post = require("../../models/post");
+const Profile = require("../../models/profile");
 const Comment = require("../../models/comment");
 const Like = require("../../models/like");
 const sendEmail = require("../../middleware/nodemailer")
@@ -14,12 +15,18 @@ module.exports = {
             content: content,
             postFile: postFile,
             game: game,
-        })
+        });
         const user = ctx.state.user;
-        post.user = user._id
+        post.user = user._id;
+
+        const profile = new Profile({
+            user: user._id,
+            post: post._id
+        });
 
         await post.save();
-
+        await profile.save();
+        
         return (ctx.body = {
             status: true,
             message: "create post success"
@@ -55,7 +62,8 @@ module.exports = {
             })
         }
 
-        const deletePost = await Post.findOneAndDelete({ _id: id }).populate('user');
+        const deletePost = await Post.findOneAndDelete({ _id: id });
+        const deleteProfile = await Profile.findOneAndDelete({ post: id });
         if (!deletePost) {
             return (ctx.body = {
                 status: false,

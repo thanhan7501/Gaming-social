@@ -21,6 +21,7 @@ const Profile = () => {
   const getProfile = async () => {
     try {
       const response = await profileApi.getProfile(user);
+      console.log(response);
       setUserPost(response.post)
       setUserProfile(response.userProfile)
     } catch (error) {
@@ -124,12 +125,9 @@ const Profile = () => {
                 <div className="cnt-label">
                   <i className="l-i" id="l-i-i"></i>
                   <span>Intro</span>
-                  <div className="lb-action">
-                    <i className="material-icons">Upload Image</i>
-                  </div>
                 </div>
                 <div id="i-box">
-                  <div id="intro-line">Back-end Development</div>
+                  <div id="intro-line">Introduce yourself</div>
                 </div>
               </div>
             </div>

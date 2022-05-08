@@ -11,10 +11,10 @@ const profile = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "post",
     },
-    share: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "share",
-    },
+    isOwner: {
+        type: Boolean,
+        default: true,
+    }
 }, {
     timestamps: {
         createdAt: "createdAt",
