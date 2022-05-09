@@ -2,11 +2,9 @@ import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 
 import Login from "./pages/login/Login";
-import PostDetail from "./pages/user/postDetail/PostDetail";
 import Home from "./pages/user/home/Home";
 import Profile from "./pages/user/profile/Profile";
 import Room from "./pages/user/room/Room";
-import ChatRoom from "./pages/user/chat/Chat";
 
 import Game from "./pages/admin/game/Game";
 import Report from "./pages/admin/report/Report";
@@ -14,13 +12,18 @@ import Dashboard from "./pages/admin/Dashboard/Dashboard"
 
 import LayoutUser from "./components/layout/LayoutUser";
 import LayoutAdmin from "./components/layout/LayoutAdmin";
+import Loading from "./components/loading/Loading";
 
 import AutoLoginUser from "./auth/AutoLoginUser";
 import RequireAuthAdmin from "./auth/RequireAuthAdmin";
+import Logout from "./auth/Logout";
 
 import 'antd/dist/antd.min.css';
 import 'swiper/css';
 import './App.scss';
+
+const ChatRoom = React.lazy(() => import("./pages/user/chat/Chat"));
+const PostDetail = React.lazy(() => import("./pages/user/postDetail/PostDetail"));
 
 function App() {
   function ScrollToTop() {
@@ -38,14 +41,15 @@ function App() {
         <ScrollToTop />
         <Routes>
           <Route exact path="/login" name="login" element={<Login />} />
+          <Route exact path="/logout" name="logout" element={<Logout />} />
           <Route element={<AutoLoginUser />}>
             {/* User routing */}
             <Route exact path="/" element={<LayoutUser />}>
               <Route exact path="" name="home" element={<Home />} />
-              <Route exact path="post/:id" name="home" element={<PostDetail />} />
+              <Route exact path="post/:id" name="home" element={<React.Suspense fallback={<Loading />}><PostDetail /></React.Suspense>} />
               <Route exact path="profile/:user" name="profile" element={<Profile />} />
               <Route exact path="roomchat" name="room" element={<Room />} />
-              <Route exact path="roomchat/:id" name="chat" element={<ChatRoom />} />
+              <Route exact path="roomchat/:id" name="chat" element={<React.Suspense fallback={<Loading />}><ChatRoom /></React.Suspense>} />
             </Route>
             {/* Admin routing */}
             <Route element={<RequireAuthAdmin />}>

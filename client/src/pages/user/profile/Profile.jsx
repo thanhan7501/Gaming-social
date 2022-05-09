@@ -111,7 +111,7 @@ const Profile = () => {
               <div id="u-name">{userProfile.fullName}</div>
               {(userInfor._id === userProfile._id && (
                 <div id="edit-profile">
-                  <button class="btn btn-info" onClick={showModal}>Edit</button>
+                  <button className="btn btn-info" onClick={showModal}>Edit</button>
                 </div>
               ))}
             </div>
@@ -133,7 +133,7 @@ const Profile = () => {
             </div>
           </div>
           {userPost && userPost.map((post, index) => (
-            <PostFrame key={index} post={post} />
+            <PostFrame key={index} post={post.post} />
           ))}
         </div>
         <div id="device-bar-2"><i class="fab fa-apple"></i></div>

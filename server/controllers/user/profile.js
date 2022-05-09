@@ -21,6 +21,7 @@ module.exports = {
                     select: "-password -createdAt -updatedAt -__v",
                 },
             })
+            .sort({ createdAt: "DESC" })
             .lean()
         // const post = await Post.find({ user: userId })
         //     .populate("user", "-password -createdAt -updatedAt -__v")

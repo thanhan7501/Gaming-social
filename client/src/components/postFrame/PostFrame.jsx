@@ -10,6 +10,8 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 
+import '../postComment/postComment.scss'
+
 const PostFrame = (props) => {
     return (
         <div className="dashboard">
@@ -21,15 +23,15 @@ const PostFrame = (props) => {
                                 <div className="user">
 
                                     <div className="user-avatar">
-                                        <Link to={`/profile/${props.post.post.user._id}`} >
-                                            <Avatar src={props.post.post.user.avatarUrl} />
+                                        <Link to={`/profile/${props.post.user._id}`} >
+                                            <Avatar src={props.post.user.avatarUrl} />
                                         </Link>
                                     </div>
                                     <div className="ml-3 user-active d-flex flex-column">
-                                        <Link to={`/profile/${props.post.post.user._id}`} >
-                                            <span>{props.post.post.user.fullName}</span>
+                                        <Link to={`/profile/${props.post.user._id}`} >
+                                            <span>{props.post.user.fullName}</span>
                                         </Link>
-                                        <em>{new Date(props.post.post.createdAt).toLocaleString()}</em>
+                                        <em>{new Date(props.post.createdAt).toLocaleString()}</em>
                                     </div>
                                 </div>
 
@@ -37,8 +39,8 @@ const PostFrame = (props) => {
                         </div>
                         <div className="col-md-6">
                             <div className="user-department">
-                                {props.post.post.game.gameName && (
-                                    <span>{`is playing ${props.post.post.game.gameName}`}</span>
+                                {props.post.game.gameName && (
+                                    <span>{`is playing ${props.post.game.gameName}`}</span>
                                 )}
                             </div>
                         </div>
@@ -47,7 +49,7 @@ const PostFrame = (props) => {
                 <div className="card-body">
                     <div className="content">
                         <div className="content-inner">
-                            {props.post.post.content}
+                            {props.post.content}
                         </div>
                         <div className="content-img text-center">
                             <Swiper
@@ -56,7 +58,7 @@ const PostFrame = (props) => {
                                 modules={[Navigation, Pagination, Mousewheel, Keyboard]}
                                 className="mySwiper"
                             >
-                                {props.post.post.postFile && props.post.post.postFile.map((image, index) => (
+                                {props.post.postFile && props.post.postFile.map((image, index) => (
                                     <SwiperSlide key={index}>
                                         <Image src={image} />
                                     </SwiperSlide>
@@ -69,12 +71,12 @@ const PostFrame = (props) => {
                 <ul className="ant-card-actions">
                     <li style={{ width: '33.3333%' }}>
                         <span>
-                            {`${props.post.post.likeCount} likes`}
+                            {`${props.post.likeCount} likes`}
                         </span>
                     </li>
                     <li style={{ width: '33.3333%' }}>
                         <span>
-                            {`${props.post.post.viewCount} views`}
+                            {`${props.post.viewCount} views`}
                         </span>
                     </li>
                 </ul>

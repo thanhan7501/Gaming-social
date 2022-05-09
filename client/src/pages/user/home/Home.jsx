@@ -54,7 +54,7 @@ const Home = () => {
         </Select>
       </Divider>
       {postList && postList.map((post, index) => (
-        <PostFrame key={index} post={post} />
+          <PostFrame key={index} post={post} />
       ))}
 
       <Modal title="Create Post" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}
