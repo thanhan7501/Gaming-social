@@ -96,7 +96,15 @@ const Post = (props) => {
                         autoSize={{ minRows: 3, maxRows: 5 }}
                     />
                 </Form.Item>
-                <Form.Item name="game">
+                <Form.Item
+                    name="game"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please input name of the game you want to upload',
+                        },
+                    ]}
+                >
                     <Select defaultValue="Playing...">
                         {gameList &&
                             gameList.map((game, index) => (

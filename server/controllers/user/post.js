@@ -26,7 +26,7 @@ module.exports = {
 
         await post.save();
         await profile.save();
-        
+
         return (ctx.body = {
             status: true,
             message: "create post success"
@@ -107,29 +107,51 @@ module.exports = {
 
     getAllPost: async (ctx) => {
         let sort = ctx.query.sort;
+        let page = ctx.query.page;
+        const pageSize = 5;
+        const totalRecord = await Post.find({}).count().lean();
         let post;
+        if (!page) {
+            return (ctx.body = {
+                status: false,
+                message: "page not found",
+            })
+        }
+        const skip = (page - 1) * pageSize;
         if (sort === "view") {
             post = await Post.find({})
+                .skip(skip)
+                .limit(pageSize)
                 .populate("user", "-password -createdAt -updatedAt -__v")
                 .populate("game", "-createdAt -updatedAt -__v")
                 .sort({ viewCount: "DESC" }).lean();
         }
         else if (sort === 'like') {
             post = await Post.find({})
+                .skip(skip)
+                .limit(pageSize)
                 .populate("user", "-password -createdAt -updatedAt -__v")
                 .populate("game", "-createdAt -updatedAt -__v")
                 .sort({ likeCount: "DESC" }).lean();
         }
         else {
             post = await Post.find({})
+                .skip(skip)
+                .limit(pageSize)
                 .populate("user", "-password -createdAt -updatedAt -__v")
                 .populate("game", "-createdAt -updatedAt -__v")
                 .sort({ createdAt: "DESC" }).lean();
         }
+        const totalPage =
+            totalRecord % pageSize === 0
+                ? parseInt(totalRecord / pageSize)
+                : parseInt(totalRecord / pageSize) + 1;
 
         return (ctx.body = {
             status: true,
             message: "get all posts success",
+            totalPage,
+            totalRecord,
             post
         })
     },

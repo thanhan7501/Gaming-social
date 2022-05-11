@@ -61,9 +61,9 @@ const PostDetail = () => {
     return (
         <>
             {post && (
-                <>
+                <div className="mt-2">
                     <PostComment post={post} />
-                </>
+                </div>
             )}
             <Form.Item>
                 <TextArea placeholder="Write something here"

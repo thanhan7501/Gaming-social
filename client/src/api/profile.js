@@ -1,8 +1,8 @@
 import axiosClient from "./axiosClient";
 
 class ProfileApi {
-    getProfile = (id) => {
-        const url = `/user/profile/${id}`
+    getProfile = (id, page) => {
+        const url = `/user/profile/${id}?page=${page}`
         return axiosClient.get(url);
     }
 

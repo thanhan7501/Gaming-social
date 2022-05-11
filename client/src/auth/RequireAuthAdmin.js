@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, Navigate, Outlet } from "react-router-dom";
+import Page403 from "../pages/403/Page403"
 import Loading from "../components/loading/Loading";
 import authApi from "../api/authApi";
 
@@ -38,7 +39,7 @@ const RequireAuthAdmin = () => {
 
         if (isAdmin === true) return <Outlet />;
 
-        else return <Navigate to="/" state={{ from: location }} replace />;
+        else return <Page403 />;
     };
 
     return <>{checkAdmin()}</>;

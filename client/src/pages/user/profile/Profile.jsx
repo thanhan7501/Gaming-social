@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Image, Modal, Form, Upload, Button } from 'antd';
+import { Image, Modal, Form, Upload, Button, Empty, Badge } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import { useParams } from 'react-router-dom';
 import { useSelector } from "react-redux";
 
 import PostFrame from '../../../components/postFrame/PostFrame'
+import Loading from '../../../components/loading/Loading';
 
 import profileApi from "../../../api/profile"
 import "./profile.scss"
@@ -13,19 +15,39 @@ import "./profile.scss"
 const Profile = () => {
   const [userPost, setUserPost] = useState();
   const [userProfile, setUserProfile] = useState();
+  const [data, setData] = useState();
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const [page, setPage] = useState(1);
   const [form] = Form.useForm();
   const { userInfor } = useSelector((state) => state.isAuthenticated);
   const urlUploadFile = `${process.env.REACT_APP_API_URL}/user/post/file`
-  let { user } = useParams();
-  const getProfile = async () => {
+  const { user } = useParams();
+  const getProfile = async (page) => {
     try {
-      const response = await profileApi.getProfile(user);
-      console.log(response);
+      const response = await profileApi.getProfile(user, page);
+      setData(response);
       setUserPost(response.post)
       setUserProfile(response.userProfile)
+      setPage((page) => page + 1)
     } catch (error) {
-      console.log(error.response);
+      console.log(error);
+    }
+  }
+
+  const getMorePost = async () => {
+    if (userPost.length >= data.totalRecord) {
+      setHasMore(false);
+      return;
+    }
+    setPage(page + 1)
+    try {
+      const response = await profileApi.getProfile(user, page);
+      console.log(response);
+      setUserPost(userPost.concat(response.post));
+      setData(response);
+    } catch (error) {
+      console.log(error)
     }
   }
 
@@ -71,10 +93,10 @@ const Profile = () => {
       const response = await profileApi.changeAvatar(value);
       console.log(response);
     } catch (error) {
-      console.log(error.response);
+      console.log(error);
     }
     handleCancel();
-    getProfile();
+    getProfile(1);
   };
 
   const showModal = () => {
@@ -96,7 +118,7 @@ const Profile = () => {
   const fileList = [];
 
   useEffect(() => {
-    getProfile();
+    getProfile(page);
   }, [user])
 
   return (
@@ -132,11 +154,36 @@ const Profile = () => {
               </div>
             </div>
           </div>
-          {userPost && userPost.map((post, index) => (
-            <PostFrame key={index} post={post.post} />
-          ))}
+          {userPost && (
+            <InfiniteScroll
+              dataLength={userPost.length}
+              next={getMorePost}
+              hasMore={hasMore}
+              loader={<Loading />}
+              endMessage={
+                <div style={{ marginTop: 20 }}>
+                  <Empty description={false} />
+                </div>
+              }
+            >
+              {userPost && userPost.map((post, index) => (
+                <>
+                  <div key={index} className="mt-4 mb-4">
+                    {post.isOwner === false && (
+                      <Badge
+                        className="site-badge-count-109"
+                        count={`${post.user.fullName} has shared this post`}
+                        style={{ backgroundColor: '#52c41a' }}
+                      />
+                    )}
+                    <PostFrame post={post.post} />
+                  </div>
+                </>
+              ))}
+            </InfiniteScroll>
+          )}
         </div>
-        <div id="device-bar-2"><i class="fab fa-apple"></i></div>
+        <div id="device-bar-2"><i className="fab fa-apple"></i></div>
       </main>
       <Modal title="Change your avatar" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} footer={[]}>
         <Form

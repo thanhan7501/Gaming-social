@@ -12,6 +12,7 @@ import ModalDelete from '../modalDelete/ModalDelete';
 import likeApi from '../../api/like';
 import postApi from '../../api/post'
 import reportApi from '../../api/report';
+import shareApi from '../../api/share'
 
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -82,7 +83,7 @@ const PostComment = (props) => {
         }
         try {
             const response = await reportApi.reportPost(values);
-            if(response.status === true) {
+            if (response.status === true) {
                 toast.success("Report success!", {
                     position: toast.POSITION.TOP_RIGHT
                 });
@@ -120,12 +121,33 @@ const PostComment = (props) => {
         }
     }
 
+    const handleShare = async () => {
+        try {
+            const response = await shareApi.createShare({ post: id });
+            console.log(response);
+            if (response.status === true) {
+                toast.success("Share success!", {
+                    position: toast.POSITION.TOP_RIGHT
+                });
+            }
+            else {
+                toast.error("Error, Share Failed !", {
+                    position: toast.POSITION.TOP_RIGHT
+                });
+            }
+        } catch (error) {
+            toast.error("Error, Share Failed !", {
+                position: toast.POSITION.TOP_RIGHT
+            });
+        }
+    }
+
     const menu = (
         <Menu>
             <Menu.Item key="1" icon={<FlagOutlined />} onClick={showReport}>
                 Report
             </Menu.Item>
-            <Menu.Item key="2" icon={<RetweetOutlined />}>
+            <Menu.Item key="2" icon={<RetweetOutlined />} onClick={handleShare}>
                 Share
             </Menu.Item>
             {(userInfor._id === props.post.post.user._id || userInfor.isAdmin === true) && (
@@ -224,7 +246,7 @@ const PostComment = (props) => {
                 </ul>
             </div>
             <ToastContainer />
-            <ModalDelete isModalVisible={isModalVisible} handleOk={handleOk} handleCancel={handleCancel} action ="delete this post" />
+            <ModalDelete isModalVisible={isModalVisible} handleOk={handleOk} handleCancel={handleCancel} action="delete this post" />
             <Modal title="Report Reason" visible={isReportVisible} onOk={handleOkReport} onCancel={handleCancelReport}>
                 <Radio.Group onChange={onChange} value={value}>
                     <Space direction="vertical">

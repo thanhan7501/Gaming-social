@@ -16,8 +16,8 @@ class PostApi {
     return axiosClient.delete(url);
   };
 
-  getAllPost = (value) => {
-    const url = `/user/post/?sort=${value}`;
+  getAllPost = (sort, page) => {
+    const url = `/user/post/?sort=${sort}&page=${page}`;
     return axiosClient.get(url);
   };
 

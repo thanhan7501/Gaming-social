@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 
+import Page404 from "./pages/404/Page404"
 import Login from "./pages/login/Login";
 import Home from "./pages/user/home/Home";
 import Profile from "./pages/user/profile/Profile";
@@ -65,7 +66,7 @@ function App() {
 
 
           {/* No match routing */}
-          {/* <Route path="*" element={<NoMatch />} /> */}
+          <Route path="*" element={<Page404 />} />
         </Routes>
       </BrowserRouter>
     </>

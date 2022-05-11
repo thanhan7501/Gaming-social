@@ -12,7 +12,7 @@ import 'swiper/css/scrollbar';
 
 import '../postComment/postComment.scss'
 
-const PostFrame = (props) => {
+const PostFrame = ({ post }) => {
     return (
         <div className="dashboard">
             <div className="card">
@@ -20,27 +20,27 @@ const PostFrame = (props) => {
                     <div className="row">
                         <div className="col-md-6">
                             <div className="dashboard_user-infor">
-                                <div className="user">
-
-                                    <div className="user-avatar">
-                                        <Link to={`/profile/${props.post.user._id}`} >
-                                            <Avatar src={props.post.user.avatarUrl} />
-                                        </Link>
+                                {post.user && (
+                                    <div className="user">
+                                        <div className="user-avatar">
+                                            <Link to={`/profile/${post.user._id}`} >
+                                                <Avatar src={post.user.avatarUrl} />
+                                            </Link>
+                                        </div>
+                                        <div className="ml-3 user-active d-flex flex-column">
+                                            <Link to={`/profile/${post.user._id}`} >
+                                                <span>{post.user.fullName}</span>
+                                            </Link>
+                                            <em>{new Date(post.createdAt).toLocaleString()}</em>
+                                        </div>
                                     </div>
-                                    <div className="ml-3 user-active d-flex flex-column">
-                                        <Link to={`/profile/${props.post.user._id}`} >
-                                            <span>{props.post.user.fullName}</span>
-                                        </Link>
-                                        <em>{new Date(props.post.createdAt).toLocaleString()}</em>
-                                    </div>
-                                </div>
-
+                                )}
                             </div>
                         </div>
                         <div className="col-md-6">
                             <div className="user-department">
-                                {props.post.game.gameName && (
-                                    <span>{`is playing ${props.post.game.gameName}`}</span>
+                                {post.game.gameName && (
+                                    <span>{`is playing ${post.game.gameName}`}</span>
                                 )}
                             </div>
                         </div>
@@ -49,7 +49,7 @@ const PostFrame = (props) => {
                 <div className="card-body">
                     <div className="content">
                         <div className="content-inner">
-                            {props.post.content}
+                            {post.content}
                         </div>
                         <div className="content-img text-center">
                             <Swiper
@@ -58,7 +58,7 @@ const PostFrame = (props) => {
                                 modules={[Navigation, Pagination, Mousewheel, Keyboard]}
                                 className="mySwiper"
                             >
-                                {props.post.postFile && props.post.postFile.map((image, index) => (
+                                {post.postFile && post.postFile.map((image, index) => (
                                     <SwiperSlide key={index}>
                                         <Image src={image} />
                                     </SwiperSlide>
@@ -71,19 +71,19 @@ const PostFrame = (props) => {
                 <ul className="ant-card-actions">
                     <li style={{ width: '33.3333%' }}>
                         <span>
-                            {`${props.post.likeCount} likes`}
+                            {`${post.likeCount} likes`}
                         </span>
                     </li>
                     <li style={{ width: '33.3333%' }}>
                         <span>
-                            {`${props.post.viewCount} views`}
+                            {`${post.viewCount} views`}
                         </span>
                     </li>
                 </ul>
                 <ul className="ant-card-actions">
                     <li style={{ width: '100%' }}>
                         <span>
-                            <Link to={`/post/${props.post._id}`}>
+                            <Link to={`/post/${post._id}`}>
                                 <EditOutlined key="comment" />
                             </Link>
                         </span>
