@@ -64,6 +64,7 @@ const Home = () => {
   const handleChange = (value) => {
     setSort(value);
     setPage(1);
+    setHasMore(true);
   }
 
   useEffect(() => {
