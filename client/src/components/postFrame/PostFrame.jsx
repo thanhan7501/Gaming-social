@@ -83,9 +83,9 @@ const PostFrame = ({ post }) => {
                 <ul className="ant-card-actions">
                     <li style={{ width: '100%' }}>
                         <span>
-                            <Link to={`/post/${post._id}`}>
+                            <a to={`/post/${post._id}`}>
                                 <EditOutlined key="comment" />
-                            </Link>
+                            </a>
                         </span>
                     </li>
                 </ul>

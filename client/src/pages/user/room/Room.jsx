@@ -20,7 +20,7 @@ const Room = () => {
                 {gameList && gameList.map((game, index) => (
                     <Row justify="center">
                         <Col span={48}>
-                            <Card size="small" key={index} title={game.gameName} extra={<Link to={`/roomchat/${game._id}`}>Join Chat</Link>}>
+                            <Card size="small" key={index} title={game.gameName} extra={<a to={`/roomchat/${game._id}`}>Join Chat</a>}>
                                 <Image width={`15rem`} src={game.gameAvatar} />
                             </Card>
                         </Col>
