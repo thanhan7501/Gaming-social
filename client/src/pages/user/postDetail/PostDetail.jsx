@@ -56,7 +56,7 @@ const PostDetail = () => {
             socket.disconnect();
             socket.off();
         }
-    }, [location.pathname])
+    }, [id])
 
     return (
         <>
