@@ -70,7 +70,7 @@ const ChatRoom = () => {
       socket.disconnect();
       socket.off();
     }
-  }, [location.pathname])
+  }, [id])
 
   useEffect(() => {
     socket.on("chat:broadcast", (userChat) => {
