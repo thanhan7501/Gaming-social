@@ -35,7 +35,7 @@ const PostComment = (props) => {
     const { userInfor } = useSelector((state) => state.isAuthenticated);
     let { id } = useParams();
 
-    const showModal = () => {
+    const showModalDelete = () => {
         setIsModalVisible(true);
     };
 
@@ -105,6 +105,7 @@ const PostComment = (props) => {
                 toast.success("Delete success!", {
                     position: toast.POSITION.TOP_RIGHT
                 });
+                props.offSocket();
                 setTimeout(() => {
                     navigate('/');
                 }, 3000);
@@ -151,7 +152,7 @@ const PostComment = (props) => {
                 Share
             </Menu.Item>
             {(userInfor._id === props.post.post.user._id || userInfor.isAdmin === true) && (
-                <Menu.Item key="3" icon={<DeleteOutlined />} onClick={showModal} >
+                <Menu.Item key="3" icon={<DeleteOutlined />} onClick={showModalDelete}>
                     Delete
                 </Menu.Item>
             )}
@@ -246,7 +247,7 @@ const PostComment = (props) => {
                 </ul>
             </div>
             <ToastContainer />
-            <ModalDelete isModalVisible={isModalVisible} handleOk={handleOk} handleCancel={handleCancel} action="delete this post" />
+            <ModalDelete isModalVisible={isModalVisible} handleOk={handleOk} handleCancel={handleCancel} action="Delete this post" />
             <Modal title="Report Reason" visible={isReportVisible} onOk={handleOkReport} onCancel={handleCancelReport}>
                 <Radio.Group onChange={onChange} value={value}>
                     <Space direction="vertical">

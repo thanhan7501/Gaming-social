@@ -6,8 +6,9 @@ const storage = multer.diskStorage({
     },
     filename: function (ctx, file, cb) {
         let fileName = file.originalname.split('.')[0];
-        let type = file.originalname.split('.')[1];
-        cb(null, `${fileName}-${Date.now().toString(16)}.${type}`)
+        let split = file.originalname.split('.');
+        let type = split[split.length - 1];
+        cb(null, `${fileName}-${Date.now().toString(16)}.${type}`);
     }
 });
 const limits = {

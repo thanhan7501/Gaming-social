@@ -14,6 +14,10 @@ const PostDetail = () => {
     const [post, setPost] = useState();
     const [comments, setComments] = useState([]);
     const [val, setVal] = useState("");
+    const offSocket = () => {
+        socket.disconnect();
+        socket.off();
+    }
     const getPostDetail = async () => {
         try {
             const response = await postApi.getPostDetail(id);
@@ -26,7 +30,7 @@ const PostDetail = () => {
     }
 
     const userRead = async () => {
-        const roomId  = id;
+        const roomId = id;
         socket.emit("joinRoom", { roomId });
     }
 
@@ -62,7 +66,7 @@ const PostDetail = () => {
         <>
             {post && (
                 <div className="mt-2">
-                    <PostComment post={post} />
+                    <PostComment offSocket={offSocket} post={post} />
                 </div>
             )}
             <Form.Item>
@@ -73,9 +77,9 @@ const PostDetail = () => {
                         }
                     }}
                     value={val}
-                    autoSize={{ minRows: 1, maxRows: 3 }} 
+                    autoSize={{ minRows: 1, maxRows: 3 }}
                     onChange={handleChange}
-                    />
+                />
                 <List
                     className="comment-list"
                     itemLayout="horizontal"

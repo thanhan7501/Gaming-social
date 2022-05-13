@@ -62,7 +62,7 @@ module.exports = {
             })
         }
 
-        const deletePost = await Post.findOneAndDelete({ _id: id });
+        const deletePost = await Post.findOneAndDelete({ _id: id }).populate('user');
         const deleteProfile = await Profile.findOneAndDelete({ post: id });
         if (!deletePost) {
             return (ctx.body = {
