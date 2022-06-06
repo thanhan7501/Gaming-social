@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Mousewheel, Keyboard } from "swiper";
-import { Avatar, Image, Menu, Dropdown, Radio, Space, Modal } from 'antd';
-import { EditOutlined, LikeOutlined, EllipsisOutlined, DeleteOutlined, LikeTwoTone, FlagOutlined, RetweetOutlined } from '@ant-design/icons';
+import { Avatar, Image, Menu, Dropdown, Radio, Space, Modal, Form, Button, Input } from 'antd';
+import { EditOutlined, LikeOutlined, EllipsisOutlined, DeleteOutlined, LikeTwoTone, FlagOutlined, RetweetOutlined, SettingOutlined } from '@ant-design/icons';
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { ToastContainer, toast } from 'react-toastify';
@@ -21,12 +21,35 @@ import 'swiper/css/scrollbar';
 import 'react-toastify/dist/ReactToastify.css';
 import "./postComment.scss";
 
+const { TextArea } = Input;
+
 const PostComment = (props) => {
     const [liked, setLiked] = useState(props.post.liked);
     const [likes, setLikes] = useState(props.post.likes);
+    const [edit, setEdit] = useState(props.post.post.content);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isReportVisible, setIsReportVisible] = useState(false);
+    const [isEditVisible, setIsEditVisible] = useState(false);
     const [value, setValue] = useState()
+    const [form] = Form.useForm();
+    const formItemLayout = {
+        labelCol: {
+            xs: {
+                span: 24,
+            },
+            sm: {
+                span: 24,
+            },
+        },
+        wrapperCol: {
+            xs: {
+                span: 24,
+            },
+            sm: {
+                span: 24,
+            },
+        },
+    };
     const onChange = (e) => {
         setValue(e.target.value)
     }
@@ -125,7 +148,6 @@ const PostComment = (props) => {
     const handleShare = async () => {
         try {
             const response = await shareApi.createShare({ post: id });
-            console.log(response);
             if (response.status === true) {
                 toast.success("Share success!", {
                     position: toast.POSITION.TOP_RIGHT
@@ -143,6 +165,46 @@ const PostComment = (props) => {
         }
     }
 
+    const handleOkEdit = () => {
+        setIsEditVisible(false);
+    }
+
+    const showModalEdit = () => {
+        setIsEditVisible(true);
+    }
+
+    const handleCancelEdit = () => {
+        setIsEditVisible(false);
+    }
+
+    const onFinish = async (values) => {
+        try {
+            const response = await postApi.updatePost(id, values);
+
+            if (response.status === true) {
+                toast.success("Edit success!", {
+                    position: toast.POSITION.TOP_RIGHT
+                });
+            }
+            else {
+                toast.error("Error, Edit Failed !", {
+                    position: toast.POSITION.TOP_RIGHT
+                });
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error("Error, Edit Failed !", {
+                position: toast.POSITION.TOP_RIGHT
+            });
+        }
+        handleCancelEdit();
+        props.callApiAgain();
+    };
+
+    const onChangeEdit = (e) => {
+        setEdit(e.target.value)
+    }
+
     const menu = (
         <Menu>
             <Menu.Item key="1" icon={<FlagOutlined />} onClick={showReport}>
@@ -154,6 +216,11 @@ const PostComment = (props) => {
             {(userInfor._id === props.post.post.user._id || userInfor.isAdmin === true) && (
                 <Menu.Item key="3" icon={<DeleteOutlined />} onClick={showModalDelete}>
                     Delete
+                </Menu.Item>
+            )}
+            {(userInfor._id === props.post.post.user._id || userInfor.isAdmin === true) && (
+                <Menu.Item key="4" icon={<SettingOutlined />} onClick={showModalEdit}>
+                    Edit
                 </Menu.Item>
             )}
         </Menu>
@@ -248,6 +315,41 @@ const PostComment = (props) => {
             </div>
             <ToastContainer />
             <ModalDelete isModalVisible={isModalVisible} handleOk={handleOk} handleCancel={handleCancel} action="Delete this post" />
+            <Modal title="Edit this post" visible={isEditVisible} onOk={handleOkEdit} onCancel={handleCancelEdit} footer={[]}>
+                <Form
+                    {...formItemLayout}
+                    form={form}
+                    name="post"
+                    initialValues={{
+                        remember: true,
+                    }}
+                    onFinish={onFinish}
+                >
+                    <Form.Item
+                        name="content"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please input the content',
+                            },
+                        ]}
+                    >
+                        {edit && (
+                            <TextArea
+                                placeholder="Write something here"
+                                autoSize={{ minRows: 3, maxRows: 5 }}
+                                value={edit}
+                                onChange={onChangeEdit}
+                            />
+                        )}
+                    </Form.Item>
+                    <Form.Item>
+                        <Button type="primary" htmlType="submit" className="login-form-button">
+                            Edit
+                        </Button>
+                    </Form.Item>
+                </Form>
+            </Modal>
             <Modal title="Report Reason" visible={isReportVisible} onOk={handleOkReport} onCancel={handleCancelReport}>
                 <Radio.Group onChange={onChange} value={value}>
                     <Space direction="vertical">

@@ -44,6 +44,9 @@ const ChatRoom = () => {
 
   const userJoinRoom = () => {
     const roomId = id;
+    socket.on('connect', (socket) => {
+      // console.log(socket); // x8WIv7-mJelg7on_ALbx
+    });
     socket.emit("joinRoom", { roomId });
   }
 
